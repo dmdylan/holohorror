@@ -18,7 +18,11 @@ public class FaceCamera : MonoBehaviour
         Vector3 lookRotation = playerCamera.transform.position - transform.position;
 
         lookRotation.y = 0;
+        //lookRotation.x = 0;
+        //lookRotation.z = 0;
 
         transform.rotation = Quaternion.LookRotation(lookRotation);
+        Debug.Log(lookRotation);
+        //Debug.Log(lookRotation);
     }
 }
