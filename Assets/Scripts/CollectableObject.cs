@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class CollectableObject : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public IntValue playerPoints;
+    
+    public void PickUpObject()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        playerPoints.Value++;
+        Debug.Log(playerPoints.Value);
+        Destroy(this.gameObject);
     }
 }
