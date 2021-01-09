@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CollectableObject : MonoBehaviour
-{
-    public IntValue playerPoints;
-    
+{  
     public void PickUpObject()
     {
-        playerPoints.Value++;
-        Debug.Log(playerPoints.Value);
+        GameEvents.Instance.PickedUpAKey();
         Destroy(this.gameObject);
     }
 }
