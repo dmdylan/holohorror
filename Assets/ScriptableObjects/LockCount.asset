@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ea136621b26624a8c8b2cdb3a61686, type: 3}
   m_Name: LockCount
   m_EditorClassIdentifier: 
-  Value: 0
+  Value: 3

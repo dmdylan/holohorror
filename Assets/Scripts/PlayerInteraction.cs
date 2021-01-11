@@ -24,9 +24,11 @@ public class PlayerInteraction : MonoBehaviour
         if(Physics.Raycast(ray, out RaycastHit hit, 5f))
         {
             Debug.Log(hit.collider.gameObject.name);
-            if (hit.collider.GetComponent<CollectableObject>() && Input.GetKeyDown(KeyCode.E))
+
+            if(hit.collider.gameObject.TryGetComponent(out IInteractableObject interactableObject))
             {
-                hit.collider.gameObject.GetComponent<CollectableObject>().PickUpObject();
+                if(Input.GetKeyDown(KeyCode.E))
+                    interactableObject.Interact();
             }
         }
     }

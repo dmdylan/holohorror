@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectableObject : MonoBehaviour
-{  
-    public void PickUpObject()
+public class Key : MonoBehaviour, IInteractableObject
+{
+    public void Interact()
     {
         GameEvents.Instance.PickedUpAKey();
         Destroy(this.gameObject);
