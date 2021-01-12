@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
         keyCount.text = playerKeys.Value.ToString();
         numberOfLocks.Value--;
         lockCount.text = numberOfLocks.Value.ToString();
+        CheckForWin();
     }
 
     private void Instance_OnPickUpKey()
@@ -65,4 +66,11 @@ public class GameManager : MonoBehaviour
         keyCount.text = playerKeys.Value.ToString();
     }
     #endregion
+
+    //TODO: Setup actual win
+    void CheckForWin()
+    {
+        if (numberOfLocks.Value == 0)
+            Debug.Log("You win!");
+    }
 }
