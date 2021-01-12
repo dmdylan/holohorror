@@ -14,7 +14,6 @@ public class PlayerInteraction : MonoBehaviour
 
     void FixedUpdate()
     {
-        //Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * 5, Color.blue);
         CheckForObjects();
     }
 

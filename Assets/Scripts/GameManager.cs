@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
     #region Event Methods
     private void Instance_OnOpenALock()
     {
+        playerKeys.Value--;
+        keyCount.text = playerKeys.Value.ToString();
         numberOfLocks.Value--;
         lockCount.text = numberOfLocks.Value.ToString();
     }
