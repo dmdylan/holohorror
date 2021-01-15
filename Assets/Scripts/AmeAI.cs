@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using BehaviorTreeStuff;
 
-public class AmeMovement : MonoBehaviour
+public class AmeAI : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
     [SerializeField] private List<Transform> wayPoints = null;
+    private Transform previousWaypoint = null;
+    private Transform currentWaypoint = null;
+    private Node topNode = null;
+    public AmeSO AmeStats = null;
+
+    public Transform PreviousWaypoint { get => previousWaypoint; set => previousWaypoint = value; }
+    public Transform CurrentWaypoint { get => currentWaypoint; set => currentWaypoint = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -16,10 +24,9 @@ public class AmeMovement : MonoBehaviour
         StartCoroutine(SelectAWayPoint());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDrawGizmos()
     {
-        
+        Gizmos.DrawWireSphere(transform.position, AmeStats.Range);
     }
 
     private IEnumerator SelectAWayPoint()

@@ -21,8 +21,12 @@ public class GameManager : MonoBehaviour
 
     public IntValue playerKeys;
     public IntValue numberOfLocks;
+    private Transform playerTransform;
+    private Vector3 playerPosition;
     [SerializeField] private TextMeshProUGUI keyCount = null;
     [SerializeField] private TextMeshProUGUI lockCount = null;
+
+    public Vector3 PlayerPosition => playerPosition;
 
     #region Start, Update, End calls
     private void Awake() => instance = this;
@@ -35,6 +39,7 @@ public class GameManager : MonoBehaviour
         numberOfLocks.Value = 3;
         keyCount.text = playerKeys.Value.ToString();
         lockCount.text = numberOfLocks.Value.ToString();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void OnEnable()
@@ -47,6 +52,11 @@ public class GameManager : MonoBehaviour
     {
         GameEvents.Instance.OnPickUpKey -= Instance_OnPickUpKey;
         GameEvents.Instance.OnOpenALock -= Instance_OnOpenALock;
+    }
+
+    private void Update()
+    {
+        playerPosition = playerTransform.transform.position;
     }
     #endregion
 

@@ -4399,6 +4399,7 @@ MonoBehaviour:
   - {fileID: 2009323097}
   - {fileID: 435760284}
   - {fileID: 771600752}
+  AmeStats: {fileID: 11400000, guid: b36a3abfec77d194a9b63e109eb924a2, type: 2}
 --- !u!1 &365087435
 GameObject:
   m_ObjectHideFlags: 0
@@ -8042,7 +8043,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1882072193999435727, guid: eb117195743e3994da56beed2abeb24f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.5
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 1882072193999435727, guid: eb117195743e3994da56beed2abeb24f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8050,7 +8051,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1882072193999435727, guid: eb117195743e3994da56beed2abeb24f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.923927
+      value: 11.75
       objectReference: {fileID: 0}
     - target: {fileID: 1882072193999435727, guid: eb117195743e3994da56beed2abeb24f, type: 3}
       propertyPath: m_LocalRotation.x

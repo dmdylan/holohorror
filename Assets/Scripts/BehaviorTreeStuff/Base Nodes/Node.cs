@@ -15,5 +15,4 @@ namespace BehaviorTreeStuff
     }
 
     public enum NodeState { RUNNING, SUCCESS, FAILURE }
-
 }
