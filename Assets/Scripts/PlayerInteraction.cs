@@ -22,7 +22,7 @@ public class PlayerInteraction : MonoBehaviour
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition); ;
         if(Physics.Raycast(ray, out RaycastHit hit, 5f))
         {
-            Debug.Log(hit.collider.gameObject.name);
+            //Debug.Log(hit.collider.gameObject.name);
 
             if(hit.collider.gameObject.TryGetComponent(out IInteractableObject interactableObject))
             {

@@ -15,3 +15,7 @@ MonoBehaviour:
   normalSpeed: 3.5
   chaseSpeed: 5
   range: 10
+  noLOSChaseTime: 10
+  noLOSWaitTime: 3
+  beginPathingTimer: 10
+  randomWanderRadius: 5
