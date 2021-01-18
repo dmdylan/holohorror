@@ -1,61 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviorTreeStuff
 {
     public class NewWaypointNode : Node
     {
-        private Transform amePosition;
-        private List<Transform> wayPoints;
         private float wayPointRange;
         private AmeAI ameAI;
+        private List<Transform> wayPoints = new List<Transform>();
 
-        public NewWaypointNode(AmeAI ameAI, Transform amePosition, List<Transform> wayPoints, float wayPointRange)
+        public NewWaypointNode(AmeAI ameAI, float wayPointRange)
         {
             this.ameAI = ameAI;
-            this.amePosition = amePosition;
-            this.wayPoints = wayPoints;
             this.wayPointRange = wayPointRange;
         }
 
         public override NodeState Evaluate()
         {
-            if(ameAI.CurrentWaypoint == null)
+            foreach (var waypoint in ameAI.WayPoints)
             {
-                FindFirstWayPoint();
-                return NodeState.SUCCESS;
-            }
-            else
-            {
-                Debug.Log("Search for a new waypoint");
-                var colliders = Physics.OverlapSphere(amePosition.position, wayPointRange);
-                List<GameObject> waypoints = new List<GameObject>();
-
-                foreach(var collider in colliders)
+                if (Vector3.Distance(waypoint.position, ameAI.transform.position) <= wayPointRange)
                 {
-                    if(collider.gameObject.tag == "Waypoint")
-                    {
-                        waypoints.Add(collider.gameObject);
-                        Debug.Log(collider.gameObject.name);
-                    }
+                    wayPoints.Add(waypoint);
                 }
-
-                IterateThroughWaypoints(waypoints);
-
-                return NodeState.SUCCESS;
             }
+
+            IterateThroughWaypoints();
+            wayPoints.Clear();
+            //Debug.Log("new waypoint chosen");
+            return NodeState.SUCCESS;
         }
 
         private void FindFirstWayPoint()
         {
-            ameAI.CurrentWaypoint = wayPoints[0];
-            ameAI.CurrentWaypoint = wayPoints[0];
+            ameAI.CurrentWaypoint = ameAI.WayPoints[0];
+            ameAI.PreviousWaypoint = ameAI.WayPoints[0];
 
-            foreach (Transform waypoint in wayPoints)
+            foreach (Transform waypoint in ameAI.WayPoints)
             {
-                if (Vector3.Distance(amePosition.position, waypoint.position) <=
-                   Vector3.Distance(amePosition.position, ameAI.CurrentWaypoint.position))
+                if (Vector3.Distance(ameAI.transform.position, waypoint.position) <=
+                   Vector3.Distance(ameAI.transform.position, ameAI.CurrentWaypoint.position))
                 {
                     ameAI.CurrentWaypoint = waypoint;
                 }
@@ -64,52 +48,44 @@ namespace BehaviorTreeStuff
             ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
         }
 
-        private void IterateThroughWaypoints(List<GameObject> wayPoints)
+        private void IterateThroughWaypoints()
         {
-            Transform tempWayPoint;
+            List<Transform> possibleWaypoints = new List<Transform>();
 
-            foreach (GameObject waypoint in wayPoints)
+            foreach(Transform waypoint in wayPoints)
             {
-                if (Physics.Linecast(amePosition.position, waypoint.transform.position))
-                    continue;
-
-                if (wayPoints.Count >= 2 && waypoint.transform == ameAI.PreviousWaypoint)
-                {
-                    if (Random.Range(0, 3) == 0)
-                    {
-                        tempWayPoint = ameAI.CurrentWaypoint;
-                        ameAI.CurrentWaypoint = ameAI.PreviousWaypoint;
-                        ameAI.PreviousWaypoint = tempWayPoint;
-                        break;
-                    }
-                }
-                else if (wayPoints.Count >= 2 && waypoint.transform != ameAI.PreviousWaypoint && waypoint.transform != ameAI.CurrentWaypoint)
-                {
-                    if (Random.Range(0, 1) == 0) 
-                    {
-                        ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
-                        ameAI.CurrentWaypoint = waypoint.transform;
-                        break;
-                    }
-                }
-                else if (wayPoints.Count == 2)
-                {
-                    if(waypoint == ameAI.PreviousWaypoint)
-                    {
-                        ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
-                        ameAI.CurrentWaypoint = waypoint.transform;
-                    }
-                    else
-                        continue;
-                }
-                else if (wayPoints.Count == 1)
-                {
-                    ameAI.CurrentWaypoint = waypoint.transform;
-                }
-                //TODO: Probably need another clause
+                if (!Physics.Linecast(ameAI.transform.position, waypoint.position))
+                    possibleWaypoints.Add(waypoint);
             }
 
-            //previousWaypoint = currentWaypoint;
+            Transform newWaypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count-1)];
+
+            if (newWaypoint == ameAI.PreviousWaypoint) 
+            {
+                if(Random.Range(0, 10) == 0)
+                {
+                    ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
+                    ameAI.CurrentWaypoint = newWaypoint;
+                    //Debug.Log("Returning to previous waypoint");
+                    return;
+                }
+                else
+                {
+                    possibleWaypoints.Remove(newWaypoint);
+                    if(possibleWaypoints.Count == 0)
+                    {
+                        Transform temp = ameAI.CurrentWaypoint;
+                        ameAI.CurrentWaypoint = ameAI.PreviousWaypoint;
+                        ameAI.PreviousWaypoint = temp;
+                        return;
+                    }
+                    newWaypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count-1)];
+                }
+            }
+
+            ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
+            ameAI.CurrentWaypoint = newWaypoint;
+            //Debug.Log("Moving to new waypoint");          
         }
     }
 }

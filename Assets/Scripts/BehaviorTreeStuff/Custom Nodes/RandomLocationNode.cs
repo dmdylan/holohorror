@@ -26,6 +26,14 @@ namespace BehaviorTreeStuff
 
         public override NodeState Evaluate()
         {
+            if(Physics.Linecast(navMeshAgent.transform.position, playerPosition.position, out RaycastHit hit))
+            {
+                if(hit.collider.CompareTag("Wall"))
+                {
+                    return NodeState.FAILURE;
+                }
+            }
+
             GameManager.Instance.StartCoroutine(PickNewRandomLocation());
             return NodeState.RUNNING;   
         }

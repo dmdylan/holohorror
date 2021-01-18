@@ -15,19 +15,24 @@ namespace BehaviorTreeStuff
 
         public override NodeState Evaluate()
         {
+            bool isAnyNodeRunning = false;
             foreach (var node in nodes)
             {
                 switch (node.Evaluate())
                 {
                     case NodeState.RUNNING:
-                        nodeState = NodeState.RUNNING;
-                        return nodeState;
+                        isAnyNodeRunning = true;
+                        break;
+                    case NodeState.SUCCESS:
+                        break;
                     case NodeState.FAILURE:
                         nodeState = NodeState.FAILURE;
                         return nodeState;
+                    default:
+                        break;
                 }
             }
-            nodeState = NodeState.SUCCESS;
+            nodeState = isAnyNodeRunning ? NodeState.RUNNING : NodeState.SUCCESS;
             return nodeState;
         }
     }

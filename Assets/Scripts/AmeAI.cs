@@ -16,6 +16,8 @@ public class AmeAI : MonoBehaviour
 
     public Transform PreviousWaypoint { get => previousWaypoint; set => previousWaypoint = value; }
     public Transform CurrentWaypoint { get => currentWaypoint; set => currentWaypoint = value; }
+    public List<Transform> WayPoints { get => wayPoints; set => wayPoints = value; }
+    public NavMeshAgent NavMeshAgent => navMeshAgent;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,7 @@ public class AmeAI : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         //navMeshAgent.SetDestination(wayPoints[Random.Range(0, wayPoints.Count - 1)].position);
         //StartCoroutine(SelectAWayPoint());
+        navMeshAgent.autoBraking = false;
         InitializeBehaviorTree();
     }
 
@@ -30,6 +33,8 @@ public class AmeAI : MonoBehaviour
     {
         topNode.Evaluate();
         Debug.Log(topNode.NodeState);
+        //Debug.Log($"Previous waypoint: {PreviousWaypoint}");
+        //Debug.Log($"Current waypoint: {CurrentWaypoint}");
     }
 
     private void OnDrawGizmos()
@@ -58,8 +63,8 @@ public class AmeAI : MonoBehaviour
         IsInLineOfSightNode lineOfSightNode = new IsInLineOfSightNode(transform, playerTransform, AmeStats.NoLOSChaseTime);
         ChasePlayerNode chasePlayerNode = new ChasePlayerNode(playerTransform, navMeshAgent, AmeStats.ChaseSpeed);
         RandomLocationNode randomLocationNode = new RandomLocationNode(playerTransform, navMeshAgent, AmeStats.NormalSpeed, AmeStats.NoLOSWaitTime, AmeStats.RandomWanderRadius);
-        NewWaypointNode newWaypointNode = new NewWaypointNode(this, transform, wayPoints, AmeStats.Range);
-        MoveToWaypointNode moveToWaypointNode = new MoveToWaypointNode(this, navMeshAgent, AmeStats.NormalSpeed);
+        NewWaypointNode newWaypointNode = new NewWaypointNode(this, AmeStats.Range);
+        MoveToWaypointNode moveToWaypointNode = new MoveToWaypointNode(this, AmeStats.NormalSpeed);
 
         Sequence isPlayerLOS = new Sequence(new List<Node> { lineOfSightNode, chasePlayerNode });
         Selector moveTowardsPlayer = new Selector(new List<Node> { isPlayerLOS, randomLocationNode });

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSpeed: 3.5
   chaseSpeed: 5
-  range: 10
+  range: 15
   noLOSChaseTime: 10
   noLOSWaitTime: 3
   beginPathingTimer: 10
