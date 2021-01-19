@@ -6,7 +6,7 @@ public class Lock : MonoBehaviour, IInteractableObject
 {
     public void Interact()
     {
-        if(GameManager.Instance.playerKeys.Value > 0)
+        if(GameManager.Instance.PlayerKeys > 0)
         {
             GameEvents.Instance.OpenedALock();
             Destroy(this.gameObject);

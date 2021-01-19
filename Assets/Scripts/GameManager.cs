@@ -19,14 +19,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IntValue playerKeys;
-    public IntValue numberOfLocks;
+    private int playerKeys;
+    private int numberOfLocks;
     private Transform playerTransform;
     private Vector3 playerPosition;
     [SerializeField] private TextMeshProUGUI keyCount = null;
     [SerializeField] private TextMeshProUGUI lockCount = null;
+    [SerializeField] private GameObject keyPrefab = null;
+    [SerializeField] private List<Transform> keySpawnPoints = null;
 
+    public DifficultySO difficulty;
     public Vector3 PlayerPosition => playerPosition;
+    public int PlayerKeys => playerKeys;
 
     #region Start, Update, End calls
     private void Awake() => instance = this;
@@ -35,11 +39,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //TODO: Setup way of auto adujusting keys, locks, and key spawns
-        playerKeys.Value = 0;
-        numberOfLocks.Value = 3;
-        keyCount.text = playerKeys.Value.ToString();
-        lockCount.text = numberOfLocks.Value.ToString();
+        playerKeys = 0;
+        numberOfLocks = (int)difficulty.GameDifficulty;
+        keyCount.text = playerKeys.ToString();
+        lockCount.text = numberOfLocks.ToString();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        SpawnKeys((int)difficulty.GameDifficulty, keySpawnPoints);
     }
 
     private void OnEnable()
@@ -63,24 +68,34 @@ public class GameManager : MonoBehaviour
     #region Event Methods
     private void Instance_OnOpenALock()
     {
-        playerKeys.Value--;
-        keyCount.text = playerKeys.Value.ToString();
-        numberOfLocks.Value--;
-        lockCount.text = numberOfLocks.Value.ToString();
+        playerKeys--;
+        keyCount.text = playerKeys.ToString();
+        numberOfLocks--;
+        lockCount.text = numberOfLocks.ToString();
         CheckForWin();
     }
 
     private void Instance_OnPickUpKey()
     {
-        playerKeys.Value++;
-        keyCount.text = playerKeys.Value.ToString();
+        playerKeys++;
+        keyCount.text = playerKeys.ToString();
     }
     #endregion
+
+    private void SpawnKeys(int keyCount, List<Transform> spawnPoints)
+    {
+        for(int i = 0; i < keyCount; i++)
+        {
+            Transform spawnLocation = spawnPoints[Random.Range(0, spawnPoints.Count - 1)];
+            Instantiate(keyPrefab, spawnLocation.position, spawnLocation.rotation);
+            spawnPoints.Remove(spawnLocation);
+        }
+    }
 
     //TODO: Setup actual win
     void CheckForWin()
     {
-        if (numberOfLocks.Value == 0)
+        if (numberOfLocks == 0)
             Debug.Log("You win!");
     }
 }

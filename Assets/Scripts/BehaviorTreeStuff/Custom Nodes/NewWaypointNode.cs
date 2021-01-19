@@ -48,6 +48,7 @@ namespace BehaviorTreeStuff
             ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
         }
 
+        //TODO: Make sure it doesn't pick a new waypoint behind it
         private void IterateThroughWaypoints()
         {
             List<Transform> possibleWaypoints = new List<Transform>();

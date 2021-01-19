@@ -9,6 +9,7 @@ TagManager:
   - Ame
   - Waypoint
   - Wall
+  - KeySpawnPoint
   layers:
   - Default
   - TransparentFX
