@@ -24,4 +24,10 @@ public class GameEvents : MonoBehaviour
 
     public event Action OnOpenALock;
     public void OpenedALock() => OnOpenALock?.Invoke();
+
+    public event Action OnGameOver;
+    public void GameOver() => OnGameOver?.Invoke();
+
+    public event Action OnGameWin;
+    public void GameWin() => OnGameWin?.Invoke();
 }

@@ -26,7 +26,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI keyCount = null;
     [SerializeField] private TextMeshProUGUI lockCount = null;
     [SerializeField] private GameObject keyPrefab = null;
+    [SerializeField] private GameObject lockPrefab = null;
     [SerializeField] private List<Transform> keySpawnPoints = null;
+    [SerializeField] private List<Transform> lockSpawnPointsEasy = null;
+    [SerializeField] private List<Transform> lockSpawnPointsNormal = null;
+    [SerializeField] private List<Transform> lockSpawnPointsHard = null;
 
     public DifficultySO difficulty;
     public Vector3 PlayerPosition => playerPosition;
@@ -45,18 +49,23 @@ public class GameManager : MonoBehaviour
         lockCount.text = numberOfLocks.ToString();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         SpawnKeys((int)difficulty.GameDifficulty, keySpawnPoints);
+        SpawnLocks((int)difficulty.GameDifficulty);
     }
 
     private void OnEnable()
     {
         GameEvents.Instance.OnPickUpKey += Instance_OnPickUpKey;
         GameEvents.Instance.OnOpenALock += Instance_OnOpenALock;
+        GameEvents.Instance.OnGameOver += Instance_OnGameOver;
+        GameEvents.Instance.OnGameWin += Instance_OnGameWin;
     }
 
     private void OnDisable()
     {
         GameEvents.Instance.OnPickUpKey -= Instance_OnPickUpKey;
         GameEvents.Instance.OnOpenALock -= Instance_OnOpenALock;
+        GameEvents.Instance.OnGameOver -= Instance_OnGameOver;
+        GameEvents.Instance.OnGameWin -= Instance_OnGameWin;
     }
 
     private void Update()
@@ -80,6 +89,17 @@ public class GameManager : MonoBehaviour
         playerKeys++;
         keyCount.text = playerKeys.ToString();
     }
+
+    //TODO: Implement lose condition and lose sequence
+    private void Instance_OnGameOver()
+    {
+        throw new System.NotImplementedException();
+    }    
+    
+    private void Instance_OnGameWin()
+    {
+        throw new System.NotImplementedException();
+    }
     #endregion
 
     private void SpawnKeys(int keyCount, List<Transform> spawnPoints)
@@ -89,6 +109,33 @@ public class GameManager : MonoBehaviour
             Transform spawnLocation = spawnPoints[Random.Range(0, spawnPoints.Count - 1)];
             Instantiate(keyPrefab, spawnLocation.position, spawnLocation.rotation);
             spawnPoints.Remove(spawnLocation);
+        }
+    }
+
+    private void SpawnLocks(int difficultyLevel)
+    {
+        if(difficultyLevel == 3)
+        {
+            foreach(Transform spawn in lockSpawnPointsEasy)
+            {
+                Instantiate(lockPrefab, spawn.position, spawn.rotation);
+            }
+        }
+
+        if (difficultyLevel == 4)
+        {
+            foreach (Transform spawn in lockSpawnPointsNormal)
+            {
+                Instantiate(lockPrefab, spawn.position, spawn.rotation);
+            }
+        }
+
+        if (difficultyLevel == 5)
+        {
+            foreach (Transform spawn in lockSpawnPointsHard)
+            {
+                Instantiate(lockPrefab, spawn.position, spawn.rotation);
+            }
         }
     }
 
