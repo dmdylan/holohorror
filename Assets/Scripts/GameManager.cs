@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Transform> lockSpawnPointsEasy = null;
     [SerializeField] private List<Transform> lockSpawnPointsNormal = null;
     [SerializeField] private List<Transform> lockSpawnPointsHard = null;
+    private GameObject gameEndPanel = null;
 
     public DifficultySO difficulty;
     public Vector3 PlayerPosition => playerPosition;
@@ -42,12 +44,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //TODO: Setup way of auto adujusting keys, locks, and key spawns
+        //TODO: Break these into UI/Game/Misc Setup methods
         playerKeys = 0;
+        Time.timeScale = 1;
         numberOfLocks = (int)difficulty.GameDifficulty;
         keyCount.text = playerKeys.ToString();
         lockCount.text = numberOfLocks.ToString();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        gameEndPanel = GameObject.Find("GameEndPanel");
+        gameEndPanel.SetActive(false);
         SpawnKeys((int)difficulty.GameDifficulty, keySpawnPoints);
         SpawnLocks((int)difficulty.GameDifficulty);
     }
@@ -71,34 +76,6 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         playerPosition = playerTransform.transform.position;
-    }
-    #endregion
-
-    #region Event Methods
-    private void Instance_OnOpenALock()
-    {
-        playerKeys--;
-        keyCount.text = playerKeys.ToString();
-        numberOfLocks--;
-        lockCount.text = numberOfLocks.ToString();
-        CheckForWin();
-    }
-
-    private void Instance_OnPickUpKey()
-    {
-        playerKeys++;
-        keyCount.text = playerKeys.ToString();
-    }
-
-    //TODO: Implement lose condition and lose sequence
-    private void Instance_OnGameOver()
-    {
-        throw new System.NotImplementedException();
-    }    
-    
-    private void Instance_OnGameWin()
-    {
-        throw new System.NotImplementedException();
     }
     #endregion
 
@@ -145,4 +122,57 @@ public class GameManager : MonoBehaviour
         if (numberOfLocks == 0)
             Debug.Log("You win!");
     }
+
+    #region UI Methods
+
+    public void PlayAgainButton()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        SceneManager.LoadScene(currentScene.name);
+        SceneManager.SetActiveScene(currentScene);
+    }
+
+    public void MainMenuButton()
+    {
+        SceneManager.LoadScene("MainMenu");    
+    }
+
+    public void QuitGameButton()
+    {
+        Application.Quit();
+    }
+
+    #endregion
+
+    #region Event Methods
+    private void Instance_OnOpenALock()
+    {
+        playerKeys--;
+        keyCount.text = playerKeys.ToString();
+        numberOfLocks--;
+        lockCount.text = numberOfLocks.ToString();
+        CheckForWin();
+    }
+
+    private void Instance_OnPickUpKey()
+    {
+        playerKeys++;
+        keyCount.text = playerKeys.ToString();
+    }
+
+    //TODO: Implement lose condition and lose sequence
+    private void Instance_OnGameOver()
+    {
+        Time.timeScale = 0;
+        gameEndPanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+    }    
+    
+    private void Instance_OnGameWin()
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
 }

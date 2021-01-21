@@ -21,15 +21,20 @@ namespace BehaviorTreeStuff
         public override NodeState Evaluate()
         {
             float distance = Vector3.Distance(playerPosition.position, navMeshAgent.transform.position);
-            if(distance > .1f)
+            if(distance > 1.5f)
             {
                 navMeshAgent.speed = chaseSpeed;
                 navMeshAgent.SetDestination(playerPosition.position);
                 return NodeState.RUNNING;
             }
+            else if(distance <= 1.5f)
+            {
+                GameEvents.Instance.GameOver();
+                return NodeState.SUCCESS;
+            }
             else
             {
-                return NodeState.SUCCESS;
+                return NodeState.FAILURE;
             }
         }
     }
