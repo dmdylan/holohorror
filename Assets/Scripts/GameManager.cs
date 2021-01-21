@@ -32,7 +32,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Transform> lockSpawnPointsEasy = null;
     [SerializeField] private List<Transform> lockSpawnPointsNormal = null;
     [SerializeField] private List<Transform> lockSpawnPointsHard = null;
-    private GameObject gameEndPanel = null;
+    [SerializeField] private GameObject gameOverPanel = null;
+    [SerializeField] private GameObject victoryPanel = null;
 
     public DifficultySO difficulty;
     public Vector3 PlayerPosition => playerPosition;
@@ -44,17 +45,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //TODO: Break these into UI/Game/Misc Setup methods
-        playerKeys = 0;
-        Time.timeScale = 1;
-        numberOfLocks = (int)difficulty.GameDifficulty;
-        keyCount.text = playerKeys.ToString();
-        lockCount.text = numberOfLocks.ToString();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        gameEndPanel = GameObject.Find("GameEndPanel");
-        gameEndPanel.SetActive(false);
-        SpawnKeys((int)difficulty.GameDifficulty, keySpawnPoints);
-        SpawnLocks((int)difficulty.GameDifficulty);
+        GameSetup();
+        UISetup();
     }
 
     private void OnEnable()
@@ -78,6 +70,24 @@ public class GameManager : MonoBehaviour
         playerPosition = playerTransform.transform.position;
     }
     #endregion
+
+    #region Misc Methods
+
+    void GameSetup()
+    {
+        playerKeys = 0;
+        Time.timeScale = 1;
+        numberOfLocks = (int)difficulty.GameDifficulty;
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        SpawnKeys((int)difficulty.GameDifficulty, keySpawnPoints);
+        SpawnLocks((int)difficulty.GameDifficulty);
+    }
+
+    void UISetup()
+    {
+        keyCount.text = playerKeys.ToString();
+        lockCount.text = numberOfLocks.ToString();
+    }
 
     private void SpawnKeys(int keyCount, List<Transform> spawnPoints)
     {
@@ -116,12 +126,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //TODO: Setup actual win
     void CheckForWin()
     {
         if (numberOfLocks == 0)
-            Debug.Log("You win!");
+            GameEvents.Instance.GameWin();
     }
+
+    string GetTimeText()
+    {
+        int min = Mathf.FloorToInt(Time.time / 60);
+        int sec = Mathf.FloorToInt(Time.time % 60);
+        int mil = Mathf.FloorToInt(Time.time * 1000) % 1000;
+        string niceTime = min.ToString("00") + ":" + sec.ToString("00") + "." + mil.ToString("0");
+
+        return niceTime;
+    }
+
+    #endregion
 
     #region UI Methods
 
@@ -165,14 +186,20 @@ public class GameManager : MonoBehaviour
     private void Instance_OnGameOver()
     {
         Time.timeScale = 0;
-        gameEndPanel.SetActive(true);
+        gameOverPanel.SetActive(true);
+        gameOverPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"Time elapsed: {GetTimeText()}";
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }    
     
+    //TODO: Could save the time completed for a high score per level
     private void Instance_OnGameWin()
     {
-        throw new System.NotImplementedException();
+        Time.timeScale = 0;
+        victoryPanel.SetActive(true);
+        gameOverPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"You escaped in: {GetTimeText()}";
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
     #endregion
 }
