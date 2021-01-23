@@ -9,24 +9,18 @@ namespace BehaviorTreeStuff
     public class RandomLocationNode : Node
     {
         private Transform playerPosition;
-        private NavMeshAgent navMeshAgent;
-        private float moveSpeed;
-        private float waitTime;
-        private float wanderRadius;
+        private AmeAI ameAI;
         private bool isWaiting = false;
 
-        public RandomLocationNode(Transform playerPosition, NavMeshAgent navMeshAgent, float moveSpeed, float waitTime, float wanderRadius)
+        public RandomLocationNode(Transform playerPosition, AmeAI ameAI)
         {
             this.playerPosition = playerPosition;
-            this.navMeshAgent = navMeshAgent;
-            this.moveSpeed = moveSpeed;
-            this.waitTime = waitTime;
-            this.wanderRadius = wanderRadius;
+            this.ameAI = ameAI;
         }
 
         public override NodeState Evaluate()
         {
-            if(Physics.Linecast(navMeshAgent.transform.position, playerPosition.position, out RaycastHit hit))
+            if(Physics.Linecast(ameAI.NavMeshAgent.transform.position, playerPosition.position, out RaycastHit hit))
             {
                 if(hit.collider.CompareTag("Wall"))
                 {
@@ -34,6 +28,7 @@ namespace BehaviorTreeStuff
                 }
             }
 
+            Debug.Log("Picking random location near player");
             GameManager.Instance.StartCoroutine(PickNewRandomLocation());
             return NodeState.RUNNING;   
         }
@@ -43,23 +38,23 @@ namespace BehaviorTreeStuff
             if (isWaiting == true)
                 yield break;
 
-            navMeshAgent.speed = moveSpeed;
-            navMeshAgent.SetDestination(GetNewRandomLocation());
+            ameAI.NavMeshAgent.speed = ameAI.AmeStats.NormalSpeed;
+            ameAI.NavMeshAgent.SetDestination(GetNewRandomLocation());
             isWaiting = true;
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(ameAI.AmeStats.NoLOSWaitTime);
             isWaiting = false;
         }
 
         private Vector3 GetNewRandomLocation()
         {
             //gets random location near player within the wander radius
-            Vector3 randomDirection =  UnityEngine.Random.insideUnitSphere * wanderRadius;
+            Vector3 randomDirection =  UnityEngine.Random.insideUnitSphere * ameAI.AmeStats.RandomWanderRadius;
 
             randomDirection += playerPosition.position;
             NavMeshHit hit;
 
             //Looks for random closest point on navmesh
-            NavMesh.SamplePosition(randomDirection, out hit, wanderRadius, 1);
+            NavMesh.SamplePosition(randomDirection, out hit, ameAI.AmeStats.RandomWanderRadius, 1);
             Vector3 finalPosition = hit.position;
 
             return finalPosition;

@@ -6,31 +6,46 @@ namespace BehaviorTreeStuff
 {
     public class IsInLineOfSightNode : Node
     {
-        private Transform amePosition;
+        private AmeAI ameAI;
         private Transform targetPosition;
-        private float noLineOfSightChaseTime;
         private bool isWaiting = false;
 
-        public IsInLineOfSightNode(Transform amePosition, Transform targetPosition, float noLineOfSightChaseTime)
+        public IsInLineOfSightNode(AmeAI ameAI, Transform targetPosition)
         {
-            this.amePosition = amePosition;
+            this.ameAI = ameAI;
             this.targetPosition = targetPosition;
-            this.noLineOfSightChaseTime = noLineOfSightChaseTime;
         }
 
         public override NodeState Evaluate()
         {
-            Vector3 heading = targetPosition.position - amePosition.position;
-            float front = Vector3.Dot(heading, amePosition.forward);
+            Vector3 heading = targetPosition.position - ameAI.transform.position;
+            float front = Vector3.Dot(heading, ameAI.transform.forward);
 
-            if(!Physics.Linecast(amePosition.position, targetPosition.position) && front >= 0)
+            //Checks if player is not blocked by obstacles and is in front of ame
+            if(Physics.Linecast(ameAI.transform.position, GameManager.Instance.PlayerPosition, out RaycastHit hit) && front >= 0)
             {
-                return NodeState.SUCCESS;   
+                if (hit.collider.CompareTag("Player"))
+                {
+                    Debug.Log("In line of sight node success");
+                    return NodeState.SUCCESS;   
+                }
+                return NodeState.FAILURE;
+            }
+            //checks if player is behind ame but within certain distance
+            else if(Vector3.Distance(ameAI.transform.position, targetPosition.position) <= 5f && front <= 0)
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    Debug.Log("In line of sight node success");
+                    return NodeState.SUCCESS;
+                }
+                return NodeState.FAILURE;
             }
             else
             {
-                GameManager.Instance.StartCoroutine(ChaseTime());
-                return NodeState.RUNNING;
+                Debug.Log("Is in line of sight node failed");
+                //GameManager.Instance.StartCoroutine(ChaseTime());
+                return NodeState.FAILURE;
             }
         }
 
@@ -40,7 +55,7 @@ namespace BehaviorTreeStuff
                 yield break;
 
             isWaiting = true;
-            yield return new WaitForSeconds(noLineOfSightChaseTime);
+            yield return new WaitForSeconds(ameAI.AmeStats.NoLOSChaseTime);
             isWaiting = false;
             yield return NodeState.FAILURE;
         }

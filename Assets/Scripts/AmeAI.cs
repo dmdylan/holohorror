@@ -11,12 +11,14 @@ public class AmeAI : MonoBehaviour
     [SerializeField] private List<Transform> wayPoints = null;
     private Transform previousWaypoint = null;
     private Transform currentWaypoint = null;
+    private Transform playerLastKnownLocation = null;
     private Node topNode = null;
     public AmeSO AmeStats = null;
 
     public Transform PreviousWaypoint { get => previousWaypoint; set => previousWaypoint = value; }
     public Transform CurrentWaypoint { get => currentWaypoint; set => currentWaypoint = value; }
     public List<Transform> WayPoints { get => wayPoints; set => wayPoints = value; }
+    public Transform PlayerLastKnownLocation { get => playerLastKnownLocation; set => playerLastKnownLocation = value; }
     public NavMeshAgent NavMeshAgent => navMeshAgent;
 
     // Start is called before the first frame update
@@ -59,19 +61,18 @@ public class AmeAI : MonoBehaviour
 
     private void InitializeBehaviorTree()
     {
-        IsInRangeNode isInRangeNode = new IsInRangeNode(transform, playerTransform, AmeStats.Range);
-        IsInLineOfSightNode lineOfSightNode = new IsInLineOfSightNode(transform, playerTransform, AmeStats.NoLOSChaseTime);
-        ChasePlayerNode chasePlayerNode = new ChasePlayerNode(playerTransform, navMeshAgent, AmeStats.ChaseSpeed);
-        RandomLocationNode randomLocationNode = new RandomLocationNode(playerTransform, navMeshAgent, AmeStats.NormalSpeed, AmeStats.NoLOSWaitTime, AmeStats.RandomWanderRadius);
-        NewWaypointNode newWaypointNode = new NewWaypointNode(this, AmeStats.Range);
-        MoveToWaypointNode moveToWaypointNode = new MoveToWaypointNode(this, AmeStats.NormalSpeed);
+        IsInRangeNode isInRangeNode = new IsInRangeNode(this, playerTransform);
+        IsInLineOfSightNode lineOfSightNode = new IsInLineOfSightNode(this, playerTransform);
+        ChasePlayerNode chasePlayerNode = new ChasePlayerNode(playerTransform, this);
+        RandomLocationNode randomLocationNode = new RandomLocationNode(playerTransform, this);
+        NewWaypointNode newWaypointNode = new NewWaypointNode(this);
+        MoveToWaypointNode moveToWaypointNode = new MoveToWaypointNode(this);
+        LastKnownLocationNode lastKnownLocationNode = new LastKnownLocationNode(this);
 
-        Sequence isPlayerLOS = new Sequence(new List<Node> { lineOfSightNode, chasePlayerNode });
-        Selector moveTowardsPlayer = new Selector(new List<Node> { isPlayerLOS, randomLocationNode });
-
-        Sequence moveToPlayer = new Sequence(new List<Node> { isInRangeNode, moveTowardsPlayer });
+        Sequence moveToPlayer = new Sequence(new List<Node> { isInRangeNode, lineOfSightNode, chasePlayerNode });
+        Sequence moveToLastKnownLocation = new Sequence(new List<Node> { lastKnownLocationNode, isInRangeNode, randomLocationNode });
         Sequence moveToWaypoint = new Sequence(new List<Node> { newWaypointNode, moveToWaypointNode });
 
-        topNode = new Selector(new List<Node> { moveToPlayer, moveToWaypoint });
+        topNode = new Selector(new List<Node> { moveToPlayer, moveToLastKnownLocation, moveToWaypoint });
     }
 }

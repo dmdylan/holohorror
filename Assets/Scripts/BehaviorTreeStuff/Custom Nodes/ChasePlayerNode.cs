@@ -8,23 +8,23 @@ namespace BehaviorTreeStuff
     public class ChasePlayerNode : Node
     {
         private Transform playerPosition;
-        private NavMeshAgent navMeshAgent;
-        private float chaseSpeed;
+        private AmeAI ameAI;
 
-        public ChasePlayerNode(Transform playerPosition, NavMeshAgent navMeshAgent, float chaseSpeed)
+        public ChasePlayerNode(Transform playerPosition, AmeAI ameAI)
         {
             this.playerPosition = playerPosition;
-            this.navMeshAgent = navMeshAgent;
-            this.chaseSpeed = chaseSpeed;
+            this.ameAI = ameAI;
         }
 
         public override NodeState Evaluate()
         {
-            float distance = Vector3.Distance(playerPosition.position, navMeshAgent.transform.position);
+            float distance = Vector3.Distance(playerPosition.position, ameAI.NavMeshAgent.transform.position);
             if(distance > 1.5f)
             {
-                navMeshAgent.speed = chaseSpeed;
-                navMeshAgent.SetDestination(playerPosition.position);
+                Debug.Log("Chasing player");
+                ameAI.NavMeshAgent.speed = ameAI.AmeStats.ChaseSpeed;
+                ameAI.NavMeshAgent.SetDestination(playerPosition.position);
+                ameAI.PlayerLastKnownLocation = playerPosition;
                 return NodeState.RUNNING;
             }
             else if(distance <= 1.5f)

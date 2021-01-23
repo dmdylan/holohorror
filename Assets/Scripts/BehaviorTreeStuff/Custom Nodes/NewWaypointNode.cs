@@ -5,21 +5,20 @@ namespace BehaviorTreeStuff
 {
     public class NewWaypointNode : Node
     {
-        private float wayPointRange;
         private AmeAI ameAI;
         private List<Transform> wayPoints = new List<Transform>();
 
-        public NewWaypointNode(AmeAI ameAI, float wayPointRange)
+        public NewWaypointNode(AmeAI ameAI)
         {
             this.ameAI = ameAI;
-            this.wayPointRange = wayPointRange;
         }
 
+        //TODO: choose nodes in front of player
         public override NodeState Evaluate()
         {
             foreach (var waypoint in ameAI.WayPoints)
             {
-                if (Vector3.Distance(waypoint.position, ameAI.transform.position) <= wayPointRange)
+                if (Vector3.Distance(waypoint.position, ameAI.transform.position) <= ameAI.AmeStats.Range)
                 {
                     wayPoints.Add(waypoint);
                 }

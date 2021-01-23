@@ -8,21 +8,19 @@ namespace BehaviorTreeStuff
     //Might be the first of a branch that also checks for line of sight
     public class IsInRangeNode : Node
     {
-        private Transform amePosition;
+        private AmeAI ameAI;
         private Transform targetPosition;
-        private float range;
 
-        public IsInRangeNode(Transform amePosition, Transform targetPosition, float range)
+        public IsInRangeNode(AmeAI ameAI, Transform targetPosition)
         {
-            this.amePosition = amePosition;
+            this.ameAI = ameAI;
             this.targetPosition = targetPosition;
-            this.range = range;
         }
 
         public override NodeState Evaluate()
         {
-            float distance = Vector3.Distance(amePosition.position, targetPosition.position);
-            return distance <= range ? NodeState.SUCCESS : NodeState.FAILURE;
+            float distance = Vector3.Distance(ameAI.transform.position, targetPosition.position);
+            return distance <= ameAI.AmeStats.Range ? NodeState.SUCCESS : NodeState.FAILURE;
         }
     }
 }
