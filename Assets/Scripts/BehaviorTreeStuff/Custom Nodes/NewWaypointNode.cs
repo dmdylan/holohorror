@@ -48,6 +48,8 @@ namespace BehaviorTreeStuff
         }
 
         //TODO: Make sure it doesn't pick a new waypoint behind it
+        //unless it is the only waypoint available
+        //TODO: Needs to check if the waypoint is in front of Ame, keeps moving forward
         private void IterateThroughWaypoints()
         {
             List<Transform> possibleWaypoints = new List<Transform>();
@@ -55,10 +57,13 @@ namespace BehaviorTreeStuff
             foreach(Transform waypoint in wayPoints)
             {
                 if (!Physics.Linecast(ameAI.transform.position, waypoint.position))
+                {
+                    Debug.Log(waypoint);
                     possibleWaypoints.Add(waypoint);
+                }
             }
 
-            Transform newWaypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count-1)];
+            Transform newWaypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count)];
 
             if (newWaypoint == ameAI.PreviousWaypoint) 
             {
@@ -79,7 +84,7 @@ namespace BehaviorTreeStuff
                         ameAI.PreviousWaypoint = temp;
                         return;
                     }
-                    newWaypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count-1)];
+                    newWaypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count)];
                 }
             }
 
