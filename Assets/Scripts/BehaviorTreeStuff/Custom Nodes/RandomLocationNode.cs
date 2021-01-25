@@ -18,6 +18,7 @@ namespace BehaviorTreeStuff
             this.ameAI = ameAI;
         }
 
+        //TODO: Pretty sure it picks once and then immediately moves to waypoint as opposed to picks, waiting, picking again, then moving
         public override NodeState Evaluate()
         {
             if(Physics.Linecast(ameAI.NavMeshAgent.transform.position, playerPosition.position, out RaycastHit hit))

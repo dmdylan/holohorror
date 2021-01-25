@@ -34,31 +34,14 @@ public class AmeAI : MonoBehaviour
     private void Update()
     {
         topNode.Evaluate();
-        Debug.Log("Current waypoint: " + CurrentWaypoint);
-        Debug.Log("Previous waypoing: " + PreviousWaypoint);
         //Debug.Log(topNode.NodeState);
-        //Debug.Log($"Previous waypoint: {PreviousWaypoint}");
-        //Debug.Log($"Current waypoint: {CurrentWaypoint}");
+        Debug.Log($"Previous waypoint: {PreviousWaypoint}");
+        Debug.Log($"Current waypoint: {CurrentWaypoint}");
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, AmeStats.Range);
-    }
-
-    private IEnumerator SelectAWayPoint()
-    {
-        Debug.Log(navMeshAgent.destination);
-        yield return new WaitForSeconds(2f);
-        if(navMeshAgent.remainingDistance <= 1f)
-        {
-            navMeshAgent.SetDestination(wayPoints[Random.Range(0, wayPoints.Count - 1)].position);
-            StartCoroutine(SelectAWayPoint());
-        }
-        else
-        {
-            StartCoroutine(SelectAWayPoint());
-        }
     }
 
     private void InitializeBehaviorTree()
