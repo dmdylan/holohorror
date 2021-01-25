@@ -34,7 +34,9 @@ public class AmeAI : MonoBehaviour
     private void Update()
     {
         topNode.Evaluate();
-        Debug.Log(topNode.NodeState);
+        Debug.Log("Current waypoint: " + CurrentWaypoint);
+        Debug.Log("Previous waypoing: " + PreviousWaypoint);
+        //Debug.Log(topNode.NodeState);
         //Debug.Log($"Previous waypoint: {PreviousWaypoint}");
         //Debug.Log($"Current waypoint: {CurrentWaypoint}");
     }

@@ -47,50 +47,49 @@ namespace BehaviorTreeStuff
             ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
         }
 
-        //TODO: Make sure it doesn't pick a new waypoint behind it
-        //unless it is the only waypoint available
-        //TODO: Needs to check if the waypoint is in front of Ame, keeps moving forward
         private void IterateThroughWaypoints()
         {
             List<Transform> possibleWaypoints = new List<Transform>();
+            Transform tempWaypoint;
 
-            foreach(Transform waypoint in wayPoints)
+            foreach (Transform waypoint in wayPoints)
             {
                 if (!Physics.Linecast(ameAI.transform.position, waypoint.position))
                 {
-                    Debug.Log(waypoint);
                     possibleWaypoints.Add(waypoint);
                 }
             }
 
-            Transform newWaypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count)];
-
-            if (newWaypoint == ameAI.PreviousWaypoint) 
+            //If it is only two, only possible option should be current/previous waypoints
+            if (possibleWaypoints.Count.Equals(2))
             {
-                if(Random.Range(0, 10) == 0)
-                {
-                    ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
-                    ameAI.CurrentWaypoint = newWaypoint;
-                    //Debug.Log("Returning to previous waypoint");
-                    return;
-                }
-                else
-                {
-                    possibleWaypoints.Remove(newWaypoint);
-                    if(possibleWaypoints.Count == 0)
-                    {
-                        Transform temp = ameAI.CurrentWaypoint;
-                        ameAI.CurrentWaypoint = ameAI.PreviousWaypoint;
-                        ameAI.PreviousWaypoint = temp;
-                        return;
-                    }
-                    newWaypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count)];
-                }
+                tempWaypoint = ameAI.CurrentWaypoint;
+                ameAI.CurrentWaypoint = ameAI.PreviousWaypoint;
+                ameAI.PreviousWaypoint = tempWaypoint;
+
+                Debug.Log("Only two waypoints, returning to " + ameAI.CurrentWaypoint);
+
+                return;
             }
 
-            ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
-            ameAI.CurrentWaypoint = newWaypoint;
-            //Debug.Log("Moving to new waypoint");          
+            //TODO: Keeps choosing the same waypoint
+            foreach(Transform waypoint in possibleWaypoints)
+            {
+                Vector3 heading = waypoint.position - ameAI.transform.position;
+                float front = Vector3.Dot(heading, ameAI.transform.forward);
+
+                Debug.Log(waypoint);
+
+                //if (waypoint == ameAI.CurrentWaypoint || ameAI.PreviousWaypoint)
+                //    continue;
+
+                if (front >= 0f && waypoint != ameAI.CurrentWaypoint || ameAI.PreviousWaypoint)
+                {
+                    ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
+                    ameAI.CurrentWaypoint = waypoint;
+                    return;
+                }
+            }        
         }
     }
 }
