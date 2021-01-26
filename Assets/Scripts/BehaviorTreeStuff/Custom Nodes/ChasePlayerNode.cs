@@ -19,10 +19,11 @@ namespace BehaviorTreeStuff
         public override NodeState Evaluate()
         {
             float distance = Vector3.Distance(playerPosition.position, ameAI.NavMeshAgent.transform.position);
+            ameAI.NavMeshAgent.speed = ameAI.AmeStats.ChaseSpeed;
+
             if(distance > 1.5f)
             {
                 Debug.Log("Chasing player");
-                ameAI.NavMeshAgent.speed = ameAI.AmeStats.ChaseSpeed;
                 ameAI.NavMeshAgent.SetDestination(playerPosition.position);
                 ameAI.PlayerLastKnownLocation = playerPosition;
                 return NodeState.RUNNING;

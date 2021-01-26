@@ -12,6 +12,7 @@ namespace BehaviorTreeStuff
         private AmeAI ameAI;
         private bool isWaiting = false;
 
+        //TODO: Might just have it chase player unless they can find hiding spot
         public RandomLocationNode(Transform playerPosition, AmeAI ameAI)
         {
             this.playerPosition = playerPosition;
@@ -19,6 +20,7 @@ namespace BehaviorTreeStuff
         }
 
         //TODO: Pretty sure it picks once and then immediately moves to waypoint as opposed to picks, waiting, picking again, then moving
+        //TODO: Never returns a success lol
         public override NodeState Evaluate()
         {
             if(Physics.Linecast(ameAI.NavMeshAgent.transform.position, playerPosition.position, out RaycastHit hit))
@@ -49,16 +51,15 @@ namespace BehaviorTreeStuff
         private Vector3 GetNewRandomLocation()
         {
             //gets random location near player within the wander radius
-            Vector3 randomDirection =  UnityEngine.Random.insideUnitSphere * ameAI.AmeStats.RandomWanderRadius;
-
-            randomDirection += playerPosition.position;
-            NavMeshHit hit;
+            Vector3 randomDirection = playerPosition.position + UnityEngine.Random.insideUnitSphere * ameAI.AmeStats.RandomWanderRadius;
 
             //Looks for random closest point on navmesh
-            NavMesh.SamplePosition(randomDirection, out hit, ameAI.AmeStats.RandomWanderRadius, 1);
+            NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, ameAI.AmeStats.RandomWanderRadius, 1);
             Vector3 finalPosition = hit.position;
 
+            Debug.DrawLine(ameAI.transform.position, finalPosition, Color.red, 20);
+
             return finalPosition;
-        } 
+        }
     }
 }

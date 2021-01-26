@@ -15,6 +15,7 @@ public class AmeAI : MonoBehaviour
     private Node topNode = null;
     public AmeSO AmeStats = null;
 
+    public bool NeedsToSelectWaypoint { get; set; } = true;
     public Transform PreviousWaypoint { get => previousWaypoint; set => previousWaypoint = value; }
     public Transform CurrentWaypoint { get => currentWaypoint; set => currentWaypoint = value; }
     public List<Transform> WayPoints { get => wayPoints; set => wayPoints = value; }
@@ -35,8 +36,9 @@ public class AmeAI : MonoBehaviour
     {
         topNode.Evaluate();
         //Debug.Log(topNode.NodeState);
-        Debug.Log($"Previous waypoint: {PreviousWaypoint}");
-        Debug.Log($"Current waypoint: {CurrentWaypoint}");
+        //Debug.Log(NeedsToSelectWaypoint);
+        //Debug.Log($"Current waypoint: {CurrentWaypoint}");
+        //Debug.Log($"Previous waypoint: {PreviousWaypoint}");
     }
 
     private void OnDrawGizmos()
@@ -59,5 +61,18 @@ public class AmeAI : MonoBehaviour
         Sequence moveToWaypoint = new Sequence(new List<Node> { newWaypointNode, moveToWaypointNode });
 
         topNode = new Selector(new List<Node> { moveToPlayer, moveToLastKnownLocation, moveToWaypoint });
+    }
+
+    public void GetNearestWaypoint()
+    {
+        //Transform wayPoint = null;
+
+        foreach (var waypoint in WayPoints)
+        {
+            if (Vector3.Distance(waypoint.position, transform.position) <= AmeStats.Range)
+            {
+                wayPoints.Add(waypoint);
+            }
+        }
     }
 }

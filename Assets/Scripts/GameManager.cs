@@ -132,6 +132,7 @@ public class GameManager : MonoBehaviour
             GameEvents.Instance.GameWin();
     }
 
+    //TODO: Set it up so it isn't just Time.time, otherwise the timer continues if they restart
     string GetTimeText()
     {
         int min = Mathf.FloorToInt(Time.time / 60);
