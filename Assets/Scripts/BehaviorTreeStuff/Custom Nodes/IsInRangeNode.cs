@@ -20,7 +20,7 @@ namespace BehaviorTreeStuff
         public override NodeState Evaluate()
         {
             float distance = Vector3.Distance(ameAI.transform.position, targetPosition.position);
-            return distance <= ameAI.AmeStats.Range ? NodeState.SUCCESS : NodeState.FAILURE;
+            return distance <= ameAI.AmeStats.WaypointRange ? NodeState.SUCCESS : NodeState.FAILURE;
         }
     }
 }

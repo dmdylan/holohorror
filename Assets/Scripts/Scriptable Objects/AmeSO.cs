@@ -7,7 +7,9 @@ public class AmeSO : ScriptableObject
 {
     [SerializeField] private float normalSpeed = 0f;
     [SerializeField] private float chaseSpeed = 0f;
-    [SerializeField] private float range = 0f;
+    [SerializeField] private float waypointRange = 0f;
+    [SerializeField] private float playerFrontDetectionRange = 0f;
+    [SerializeField] private float playerBackDetectionRange = 0f;
     [SerializeField] private float noLOSChaseTime = 0f;
     [SerializeField] private float noLOSWaitTime = 0f;
     [SerializeField] private float beginPathingTimer = 0f;
@@ -15,7 +17,9 @@ public class AmeSO : ScriptableObject
 
     public float NormalSpeed => normalSpeed;
     public float ChaseSpeed => chaseSpeed;
-    public float Range => range;
+    public float WaypointRange => waypointRange;
+    public float PlayerFrontDetectionRange => playerFrontDetectionRange;
+    public float PlayerBackDetectionRange => playerBackDetectionRange;
     public float NoLOSChaseTime => noLOSChaseTime;
     public float NoLOSWaitTime => noLOSWaitTime;
     public float BeginPathingTimer => beginPathingTimer;

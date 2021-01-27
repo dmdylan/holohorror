@@ -19,18 +19,14 @@ namespace BehaviorTreeStuff
                 return NodeState.FAILURE;
 
             ameAI.NavMeshAgent.SetDestination(ameAI.PlayerLastKnownLocation.position);
-            return NodeState.SUCCESS;
 
-            //if(ameAI.NavMeshAgent.remainingDistance >= .1f)
-            //{
-            //    Debug.Log("Moving to last known location");
-            //    return NodeState.RUNNING;
-            //}
-            //else
-            //{
-            //    Debug.Log("Reached last known location");
-            //    return NodeState.SUCCESS;
-            //}
+            if(ameAI.NavMeshAgent.remainingDistance >= 1.5f)
+            {
+                return NodeState.RUNNING;
+            }
+
+            ameAI.PlayerLastKnownLocation = null;
+            return NodeState.SUCCESS;
         }
     }
 }

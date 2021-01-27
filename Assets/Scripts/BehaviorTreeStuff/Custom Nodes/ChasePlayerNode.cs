@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//TODO: Could enable the always face player script
 namespace BehaviorTreeStuff
 {
     public class ChasePlayerNode : Node

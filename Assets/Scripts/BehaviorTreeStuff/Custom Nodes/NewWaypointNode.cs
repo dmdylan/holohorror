@@ -21,7 +21,7 @@ namespace BehaviorTreeStuff
 
             foreach (var waypoint in ameAI.WayPoints)
             {
-                if (Vector3.Distance(waypoint.position, ameAI.transform.position) <= ameAI.AmeStats.Range)
+                if (Vector3.Distance(waypoint.position, ameAI.transform.position) <= ameAI.AmeStats.WaypointRange)
                 {
                     wayPoints.Add(waypoint);
                 }
@@ -40,7 +40,6 @@ namespace BehaviorTreeStuff
             return NodeState.RUNNING;
         }
 
-        //TODO: Could remove the current and previous waypoints from the list before search through it
         private void IterateThroughWaypoints()
         {
             List<Transform> possibleWaypoints = new List<Transform>();

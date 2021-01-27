@@ -32,7 +32,7 @@ namespace BehaviorTreeStuff
                 return NodeState.FAILURE;
             }
             //checks if player is behind ame but within certain distance
-            else if(Vector3.Distance(ameAI.transform.position, targetPosition.position) <= 5f && front <= 0)
+            else if(Vector3.Distance(ameAI.transform.position, targetPosition.position) <= ameAI.AmeStats.PlayerBackDetectionRange && front <= 0)
             {
                 if (hit.collider.CompareTag("Player"))
                 {

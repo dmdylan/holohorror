@@ -43,7 +43,7 @@ public class AmeAI : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, AmeStats.Range);
+        Gizmos.DrawWireSphere(transform.position, AmeStats.WaypointRange);
     }
 
     private void InitializeBehaviorTree()
@@ -69,7 +69,7 @@ public class AmeAI : MonoBehaviour
 
         foreach (var waypoint in WayPoints)
         {
-            if (Vector3.Distance(waypoint.position, transform.position) <= AmeStats.Range)
+            if (Vector3.Distance(waypoint.position, transform.position) <= AmeStats.WaypointRange)
             {
                 wayPoints.Add(waypoint);
             }

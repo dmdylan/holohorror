@@ -132,12 +132,11 @@ public class GameManager : MonoBehaviour
             GameEvents.Instance.GameWin();
     }
 
-    //TODO: Set it up so it isn't just Time.time, otherwise the timer continues if they restart
     string GetTimeText()
     {
-        int min = Mathf.FloorToInt(Time.time / 60);
-        int sec = Mathf.FloorToInt(Time.time % 60);
-        int mil = Mathf.FloorToInt(Time.time * 1000) % 1000;
+        int min = Mathf.FloorToInt(Time.timeSinceLevelLoad / 60);
+        int sec = Mathf.FloorToInt(Time.timeSinceLevelLoad % 60);
+        int mil = Mathf.FloorToInt(Time.timeSinceLevelLoad * 1000) % 1000;
         string niceTime = min.ToString("00") + ":" + sec.ToString("00") + "." + mil.ToString("0");
 
         return niceTime;
@@ -183,7 +182,6 @@ public class GameManager : MonoBehaviour
         keyCount.text = playerKeys.ToString();
     }
 
-    //TODO: Implement lose condition and lose sequence
     private void Instance_OnGameOver()
     {
         Time.timeScale = 0;
@@ -194,11 +192,12 @@ public class GameManager : MonoBehaviour
     }    
     
     //TODO: Could save the time completed for a high score per level
+    //TODO: Add you only won because ame was lagging
     private void Instance_OnGameWin()
     {
         Time.timeScale = 0;
         victoryPanel.SetActive(true);
-        gameOverPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"You escaped in: {GetTimeText()}";
+        victoryPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"You escaped in: {GetTimeText()}";
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }
