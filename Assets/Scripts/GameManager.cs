@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     static GameManager instance;
-
     public static GameManager Instance
     {
         get
@@ -20,25 +19,42 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #region Variables
     private int playerKeys;
     private int numberOfLocks;
     private Transform playerTransform;
     private Vector3 playerPosition;
+    private string highScore;
+    private string highScoreTime;
+
+    [Header("UI Setup")]
     [SerializeField] private TextMeshProUGUI keyCount = null;
     [SerializeField] private TextMeshProUGUI lockCount = null;
+    [SerializeField] private GameObject gameOverPanel = null;
+    [SerializeField] private GameObject victoryPanel = null;
+    [SerializeField] private TextMeshProUGUI victoryTimeText = null;
+    [SerializeField] private TextMeshProUGUI victoryHighScoreText = null;
+    [SerializeField] private TextMeshProUGUI gameOverTimeText = null;
+    [SerializeField] private TextMeshProUGUI gameOverHighScoreText = null;
+
+    [Header("Prefabs")]
     [SerializeField] private GameObject keyPrefab = null;
     [SerializeField] private GameObject lockPrefab = null;
+
+    //TODO: Only need one point for lock/object spawn
+    [Header("Spawn Points")]
     [SerializeField] private List<Transform> keySpawnPoints = null;
     [SerializeField] private List<Transform> lockSpawnPointsEasy = null;
     [SerializeField] private List<Transform> lockSpawnPointsNormal = null;
     [SerializeField] private List<Transform> lockSpawnPointsHard = null;
-    [SerializeField] private GameObject gameOverPanel = null;
-    [SerializeField] private GameObject victoryPanel = null;
 
+    [Header("Scriptable Objects")]
     public DifficultySO difficulty;
     public FloatValue flashlightBattery;
     public Vector3 PlayerPosition => playerPosition;
     public int PlayerKeys => playerKeys;
+
+    #endregion
 
     #region Start, Update, End calls
     private void Awake() => instance = this;
@@ -79,6 +95,8 @@ public class GameManager : MonoBehaviour
         playerKeys = 0;
         flashlightBattery.Value = 100;
         Time.timeScale = 1;
+        highScore = $"highscore{difficulty.GameDifficulty}";
+        highScoreTime = $"highscoreTime{difficulty.GameDifficulty}";
         numberOfLocks = (int)difficulty.GameDifficulty;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         SpawnKeys((int)difficulty.GameDifficulty, keySpawnPoints);
@@ -101,6 +119,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //TODO: Only need one point for lock/object spawn
     private void SpawnLocks(int difficultyLevel)
     {
         if(difficultyLevel == 3)
@@ -142,6 +161,41 @@ public class GameManager : MonoBehaviour
         string niceTime = min.ToString("00") + ":" + sec.ToString("00") + "." + mil.ToString("0");
 
         return niceTime;
+    }
+
+    void HighScoreSetup()
+    {
+        if (PlayerPrefs.HasKey(highScoreTime))
+        {
+            if (PlayerPrefs.GetFloat(highScoreTime) < Time.timeSinceLevelLoad)
+            {
+                PlayerPrefs.SetFloat(highScoreTime, Time.timeSinceLevelLoad);
+                PlayerPrefs.SetString(highScore, GetTimeText());
+            }
+            else
+                return;
+        }
+        else
+        {
+            PlayerPrefs.SetFloat(highScoreTime, Time.timeSinceLevelLoad);
+            PlayerPrefs.SetString(highScore, GetTimeText());
+        }
+    }
+
+    string ShowHighScore()
+    {
+        string highscore = "";
+
+        if(PlayerPrefs.HasKey(highScore) == false)
+        {
+            highScore = "";
+        }
+        else
+        {
+            highscore = PlayerPrefs.GetString(highScore);
+        }
+
+        return highscore;
     }
 
     #endregion
@@ -188,7 +242,8 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         gameOverPanel.SetActive(true);
-        gameOverPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"Time elapsed: {GetTimeText()}";
+        gameOverTimeText.text = $"Time elapsed: {GetTimeText()}";
+        gameOverHighScoreText.text = $"High Score: {ShowHighScore()}";
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }    
@@ -197,9 +252,11 @@ public class GameManager : MonoBehaviour
     //TODO: Add you only won because ame was lagging
     private void Instance_OnGameWin()
     {
+        HighScoreSetup();
         Time.timeScale = 0;
         victoryPanel.SetActive(true);
-        victoryPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"You escaped in: {GetTimeText()}";
+        victoryTimeText.text = $"You escaped in: {GetTimeText()}";
+        victoryHighScoreText.text = $"High Score: {ShowHighScore()}";
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }

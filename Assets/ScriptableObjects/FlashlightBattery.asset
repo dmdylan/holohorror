@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de23f09df68136946bbdde4f89558994, type: 3}
   m_Name: FlashlightBattery
   m_EditorClassIdentifier: 
-  Value: -0.011725789
+  Value: 256.2961

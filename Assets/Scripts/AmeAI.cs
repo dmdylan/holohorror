@@ -6,15 +6,17 @@ using BehaviorTreeStuff;
 
 public class AmeAI : MonoBehaviour
 {
-    private NavMeshAgent navMeshAgent;
     [SerializeField] private Transform playerTransform = null;
     [SerializeField] private List<Transform> wayPoints = null;
+    private NavMeshAgent navMeshAgent;
     private Transform previousWaypoint = null;
     private Transform currentWaypoint = null;
     private Transform playerLastKnownLocation = null;
     private Node topNode = null;
+    private FaceCamera faceCamera;
     public AmeSO AmeStats = null;
 
+    public bool IsChasing { get; set; }
     public bool NeedsToSelectWaypoint { get; set; } = true;
     public Transform PreviousWaypoint { get => previousWaypoint; set => previousWaypoint = value; }
     public Transform CurrentWaypoint { get => currentWaypoint; set => currentWaypoint = value; }
@@ -26,8 +28,7 @@ public class AmeAI : MonoBehaviour
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        //navMeshAgent.SetDestination(wayPoints[Random.Range(0, wayPoints.Count - 1)].position);
-        //StartCoroutine(SelectAWayPoint());
+        faceCamera = GetComponent<FaceCamera>();
         navMeshAgent.autoBraking = false;
         InitializeBehaviorTree();
     }
@@ -35,10 +36,15 @@ public class AmeAI : MonoBehaviour
     private void Update()
     {
         topNode.Evaluate();
-        //Debug.Log(topNode.NodeState);
-        //Debug.Log(NeedsToSelectWaypoint);
-        //Debug.Log($"Current waypoint: {CurrentWaypoint}");
-        //Debug.Log($"Previous waypoint: {PreviousWaypoint}");
+
+        if(IsChasing == true)
+        {
+            faceCamera.enabled = true;
+        }
+        else
+        {
+            faceCamera.enabled = false;
+        }
     }
 
     private void OnDrawGizmos()
@@ -61,18 +67,5 @@ public class AmeAI : MonoBehaviour
         Sequence moveToWaypoint = new Sequence(new List<Node> { newWaypointNode, moveToWaypointNode });
 
         topNode = new Selector(new List<Node> { moveToPlayer, moveToLastKnownLocation, moveToWaypoint });
-    }
-
-    public void GetNearestWaypoint()
-    {
-        //Transform wayPoint = null;
-
-        foreach (var waypoint in WayPoints)
-        {
-            if (Vector3.Distance(waypoint.position, transform.position) <= AmeStats.WaypointRange)
-            {
-                wayPoints.Add(waypoint);
-            }
-        }
     }
 }

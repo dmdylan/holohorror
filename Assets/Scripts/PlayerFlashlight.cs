@@ -23,6 +23,10 @@ public class PlayerFlashlight : MonoBehaviour
         {
             flashLightBattery.Value -= batteryDrainAmount * Time.deltaTime;
         }
+        else
+        {
+            flashLightBattery.Value += batteryFillAmount * Time.deltaTime;
+        }
 
         if (flashLightBattery.Value >= 10)
         {

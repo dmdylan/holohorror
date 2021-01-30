@@ -25,6 +25,7 @@ namespace BehaviorTreeStuff
             if(distance > 1.5f)
             {
                 Debug.Log("Chasing player");
+                ameAI.IsChasing = true;
                 ameAI.NavMeshAgent.SetDestination(playerPosition.position);
                 ameAI.PlayerLastKnownLocation = playerPosition;
                 return NodeState.RUNNING;
@@ -32,10 +33,12 @@ namespace BehaviorTreeStuff
             else if(distance <= 1.5f)
             {
                 GameEvents.Instance.GameOver();
+                ameAI.IsChasing = false;
                 return NodeState.SUCCESS;
             }
             else
             {
+                ameAI.IsChasing = false;
                 return NodeState.FAILURE;
             }
         }
