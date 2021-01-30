@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject victoryPanel = null;
 
     public DifficultySO difficulty;
+    public FloatValue flashlightBattery;
     public Vector3 PlayerPosition => playerPosition;
     public int PlayerKeys => playerKeys;
 
@@ -76,6 +77,7 @@ public class GameManager : MonoBehaviour
     void GameSetup()
     {
         playerKeys = 0;
+        flashlightBattery.Value = 100;
         Time.timeScale = 1;
         numberOfLocks = (int)difficulty.GameDifficulty;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
