@@ -15,7 +15,7 @@ MonoBehaviour:
   normalSpeed: 3.5
   chaseSpeed: 5
   waypointRange: 15
-  playerFrontDetectionRange: 15
+  playerFrontDetectionRange: 10
   playerBackDetectionRange: 7
   noLOSChaseTime: 10
   noLOSWaitTime: 3

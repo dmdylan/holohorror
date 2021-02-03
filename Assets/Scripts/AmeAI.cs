@@ -6,8 +6,10 @@ using BehaviorTreeStuff;
 
 public class AmeAI : MonoBehaviour
 {
-    [SerializeField] private Transform playerTransform = null;
     [SerializeField] private List<Transform> wayPoints = null;
+    [SerializeField] private AudioClip[] ameFootSteps = null;
+    private Transform playerTransform;
+    private AudioSource audioSource;
     private NavMeshAgent navMeshAgent;
     private Transform previousWaypoint = null;
     private Transform currentWaypoint = null;
@@ -24,9 +26,15 @@ public class AmeAI : MonoBehaviour
     public Transform PlayerLastKnownLocation { get => playerLastKnownLocation; set => playerLastKnownLocation = value; }
     public NavMeshAgent NavMeshAgent => navMeshAgent;
 
+    private void Awake()
+    {
+        playerTransform = FindObjectOfType<FirstPersonAIO>().transform;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         faceCamera = GetComponent<FaceCamera>();
         navMeshAgent.autoBraking = false;
@@ -67,5 +75,10 @@ public class AmeAI : MonoBehaviour
         Sequence moveToWaypoint = new Sequence(new List<Node> { newWaypointNode, moveToWaypointNode });
 
         topNode = new Selector(new List<Node> { moveToPlayer, moveToLastKnownLocation, moveToWaypoint });
+    }
+
+    private void PlayStepSound()
+    {
+        audioSource.PlayOneShot(ameFootSteps[Random.Range(0,4)]);
     }
 }
