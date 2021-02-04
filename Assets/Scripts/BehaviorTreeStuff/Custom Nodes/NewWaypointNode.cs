@@ -33,7 +33,7 @@ namespace BehaviorTreeStuff
                 IterateThroughWaypoints();
                 wayPoints.Clear();
                 ameAI.NeedsToSelectWaypoint = false;
-                Debug.Log("picked new waypoint success");
+                Debug.Log(ameAI.CurrentWaypoint);
                 return NodeState.SUCCESS;
             }
 
@@ -54,7 +54,7 @@ namespace BehaviorTreeStuff
             }
 
             //If it is only two, only possible option should be current/previous waypoints
-            if (possibleWaypoints.Count.Equals(2))
+            if (possibleWaypoints.Count.Equals(2) && ameAI.CurrentWaypoint != null)
             {
                 ameAI.CurrentWaypoint = ameAI.PreviousWaypoint;
                 ameAI.PreviousWaypoint = tempWaypoint;
