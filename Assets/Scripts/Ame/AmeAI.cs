@@ -36,7 +36,6 @@ public class AmeAI : MonoBehaviour
     {
         playerTransform = FindObjectOfType<FirstPersonAIO>().transform;
         wayPoints = GameManager.Instance.AmeWayPoints;
-        Debug.Log(wayPoints.Count);
     }
 
     // Start is called before the first frame update

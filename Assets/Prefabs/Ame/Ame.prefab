@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4529885072813803587}
   - component: {fileID: 359646139}
   - component: {fileID: 8971177579878447102}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ame
   m_TagString: Ame
   m_Icon: {fileID: 0}
@@ -166,55 +166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b12a589fec69d64ba4ba14f253c5889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   ameFootSteps:
   - {fileID: 8300000, guid: cca1329fd7a4db247b586be1faa315d3, type: 3}
   - {fileID: 8300000, guid: 565b1fe8cc00ae047abcaf537239825d, type: 3}

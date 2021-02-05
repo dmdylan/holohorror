@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private int playerKeys;
     private int numberOfLocks;
     private float ameSpawnTimer;
-    private float ameSpawnTime = 10f;
+    private float ameSpawnTime = 60f;
     private Transform playerTransform;
     private string highScore;
     private string highScoreTime;
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
         {
             //TODO: Spawn new ame
             ameSpawnTimer -= ameSpawnTime;
-            SpawnNewAme();
+     //       SpawnNewAme();
         }
     }
     #endregion

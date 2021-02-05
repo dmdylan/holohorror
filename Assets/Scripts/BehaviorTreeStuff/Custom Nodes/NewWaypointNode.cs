@@ -43,7 +43,6 @@ namespace BehaviorTreeStuff
         private void IterateThroughWaypoints()
         {
             List<Transform> possibleWaypoints = new List<Transform>();
-            //ameAI.PreviousWaypoint = ameAI.CurrentWaypoint;
 
             foreach (Transform waypoint in wayPoints)
             {
@@ -78,7 +77,7 @@ namespace BehaviorTreeStuff
                     break;
                 }
 
-                if (front >= -.5f)// && waypoint != ameAI.CurrentWaypoint || ameAI.PreviousWaypoint)
+                if (front >= 0)// && waypoint != ameAI.CurrentWaypoint || ameAI.PreviousWaypoint)
                 {
                     if(random >= 1)
                     {
