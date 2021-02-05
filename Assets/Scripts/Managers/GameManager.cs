@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private string highScore;
     private string highScoreTime;
     private AudioSource audioSource;
+    public bool isDebug = true;
 
     [Header("UI Setup")]
     [SerializeField] private TextMeshProUGUI keyCount = null;

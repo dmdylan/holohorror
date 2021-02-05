@@ -85,8 +85,7 @@ namespace BehaviorTreeStuff
                         break;
                     }
                 }
-            }                
-            ameAI.PreviousWaypoint = tempWaypoint;        
+            }                   
         }
     }
 }
