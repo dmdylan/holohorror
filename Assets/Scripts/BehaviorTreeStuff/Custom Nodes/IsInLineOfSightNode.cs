@@ -22,7 +22,7 @@ namespace BehaviorTreeStuff
             float front = Vector3.Dot(heading, ameAI.transform.forward);
 
             //Checks if player is not blocked by obstacles and is in front of ame
-            if(Physics.Linecast(ameAI.transform.position, GameManager.Instance.PlayerPosition, out RaycastHit hit) && front >= 0)
+            if(Physics.Linecast(ameAI.transform.position, targetPosition.position, out RaycastHit hit) && front >= 0)
             {
                 if (hit.collider.CompareTag("Player"))
                 {

@@ -22,10 +22,12 @@ public class GameManager : MonoBehaviour
     #region Variables
     private int playerKeys;
     private int numberOfLocks;
+    private float ameSpawnTimer;
+    private float ameSpawnTime = 10f;
     private Transform playerTransform;
-    private Vector3 playerPosition;
     private string highScore;
     private string highScoreTime;
+    private AudioSource audioSource;
 
     [Header("UI Setup")]
     [SerializeField] private TextMeshProUGUI keyCount = null;
@@ -40,19 +42,28 @@ public class GameManager : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject keyPrefab = null;
     [SerializeField] private GameObject lockPrefab = null;
+    [SerializeField] private GameObject amePrefab = null;
 
     //TODO: Only need one point for lock/object spawn
     [Header("Spawn Points")]
+    [SerializeField] private List<Transform> ameSpawnPoints = null;
     [SerializeField] private List<Transform> keySpawnPoints = null;
     [SerializeField] private List<Transform> lockSpawnPointsEasy = null;
     [SerializeField] private List<Transform> lockSpawnPointsNormal = null;
     [SerializeField] private List<Transform> lockSpawnPointsHard = null;
 
+    [Header("Waypoints")]
+    [SerializeField] private List<Transform> ameWaypoints = null;
+
+    [Header("Sound Effects")]
+    [SerializeField] private AudioClip ameSpawnNoise = null;
+
     [Header("Scriptable Objects")]
     public DifficultySO difficulty;
     public FloatValue flashlightBattery;
-    public Vector3 PlayerPosition => playerPosition;
+
     public int PlayerKeys => playerKeys;
+    public List<Transform> AmeWayPoints => ameWaypoints;
 
     #endregion
 
@@ -84,14 +95,49 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        playerPosition = playerTransform.transform.position;
+        ameSpawnTimer += Time.deltaTime;
+
+        if(ameSpawnTimer >= ameSpawnTime && difficulty.GameDifficulty == Difficulty.Gremlin)
+        {
+            //TODO: Spawn new ame
+            ameSpawnTimer -= ameSpawnTime;
+            SpawnNewAme();
+        }
     }
     #endregion
 
     #region Misc Methods
 
+    private void SpawnNewAme()
+    {
+        Transform newAmeSpawnLocation = null;
+
+        foreach(Transform spawnLocation in ameSpawnPoints)
+        {
+            if(newAmeSpawnLocation == null)
+            {
+                newAmeSpawnLocation = spawnLocation;
+                continue;
+            }
+
+            if(Vector3.Distance(spawnLocation.position, playerTransform.position) >= Vector3.Distance(newAmeSpawnLocation.position, playerTransform.position))
+            {
+                newAmeSpawnLocation = spawnLocation;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        Instantiate(amePrefab, newAmeSpawnLocation.position, newAmeSpawnLocation.rotation);
+        audioSource.PlayOneShot(ameSpawnNoise);
+    }
+
     void GameSetup()
     {
+        audioSource = GetComponent<AudioSource>();
+        difficulty.GameDifficulty = Difficulty.Gremlin;
         playerKeys = 0;
         flashlightBattery.Value = 100;
         Time.timeScale = 1;
@@ -99,8 +145,8 @@ public class GameManager : MonoBehaviour
         highScoreTime = $"highscoreTime{difficulty.GameDifficulty}";
         numberOfLocks = (int)difficulty.GameDifficulty;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        SpawnKeys((int)difficulty.GameDifficulty, keySpawnPoints);
-        SpawnLocks((int)difficulty.GameDifficulty);
+        //SpawnKeys((int)difficulty.GameDifficulty, keySpawnPoints);
+        //SpawnLocks((int)difficulty.GameDifficulty);
     }
 
     void UISetup()

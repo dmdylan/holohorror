@@ -6,9 +6,6 @@ using BehaviorTreeStuff;
 
 public class AmeAI : MonoBehaviour
 {
-    [Header("Waypoints")]
-    [SerializeField] private List<Transform> wayPoints = null;
-
     [Header("Audio Clips")]
     [SerializeField] private AudioClip[] ameFootSteps = null;
     [SerializeField] private AudioClip[] ameChaseNosie = null;
@@ -16,6 +13,7 @@ public class AmeAI : MonoBehaviour
     [Header("Ame Stats")]
     public AmeSO AmeStats = null;
 
+    private List<Transform> wayPoints = null;
     private Transform playerTransform;
     private AudioSource audioSource;
     private NavMeshAgent navMeshAgent;
@@ -37,6 +35,8 @@ public class AmeAI : MonoBehaviour
     private void Awake()
     {
         playerTransform = FindObjectOfType<FirstPersonAIO>().transform;
+        wayPoints = GameManager.Instance.AmeWayPoints;
+        Debug.Log(wayPoints.Count);
     }
 
     // Start is called before the first frame update

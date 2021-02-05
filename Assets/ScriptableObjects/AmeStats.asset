@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSpeed: 3.5
   chaseSpeed: 5
-  waypointRange: 15
+  waypointRange: 10
   playerFrontDetectionRange: 10
   playerBackDetectionRange: 7
   noLOSChaseTime: 10
