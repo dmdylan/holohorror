@@ -48,13 +48,12 @@ public class GameManager : MonoBehaviour
     //TODO: Only need one point for lock/object spawn
     [Header("Spawn Points")]
     [SerializeField] private List<Transform> ameSpawnPoints = null;
-    [SerializeField] private List<Transform> keySpawnPoints = null;
     [SerializeField] private List<Transform> lockSpawnPointsEasy = null;
     [SerializeField] private List<Transform> lockSpawnPointsNormal = null;
     [SerializeField] private List<Transform> lockSpawnPointsHard = null;
 
     [Header("Waypoints")]
-    [SerializeField] private List<Transform> ameWaypoints = null;
+    //[SerializeField] private List<Transform> ameWaypoints = null;
 
     [Header("Sound Effects")]
     [SerializeField] private AudioClip ameSpawnNoise = null;
@@ -64,7 +63,7 @@ public class GameManager : MonoBehaviour
     public FloatValue flashlightBattery;
 
     public int PlayerKeys => playerKeys;
-    public List<Transform> AmeWayPoints => ameWaypoints;
+    //public List<Transform> AmeWayPoints => ameWaypoints;
 
     #endregion
 

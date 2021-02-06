@@ -14,10 +14,10 @@ public class Waypoint : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         other.TryGetComponent(out AmeAI ameAi);
-        ameAi.PreviousWaypoint = transform;
+        ameAi.PreviousWaypoint = this;
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (GameManager.Instance.isDebug != true)
             return;

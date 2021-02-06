@@ -22,7 +22,7 @@ namespace BehaviorTreeStuff
 
             if(isMovingToWaypoint == false)
             {
-                ameAI.NavMeshAgent.SetDestination(ameAI.CurrentWaypoint.position);
+                ameAI.NavMeshAgent.SetDestination(ameAI.CurrentWaypoint.transform.position);
                 ameAI.NavMeshAgent.speed = ameAI.AmeStats.NormalSpeed;
                 ameAI.NavMeshAgent.isStopped = false;
                 isMovingToWaypoint = true;

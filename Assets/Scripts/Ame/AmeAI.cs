@@ -13,12 +13,12 @@ public class AmeAI : MonoBehaviour
     [Header("Ame Stats")]
     public AmeSO AmeStats = null;
 
-    private List<Transform> wayPoints = null;
+    //private List<Transform> wayPoints = null;
     private Transform playerTransform;
     private AudioSource audioSource;
     private NavMeshAgent navMeshAgent;
-    private Transform previousWaypoint = null;
-    private Transform currentWaypoint = null;
+    private Waypoint previousWaypoint = null;
+    private Waypoint currentWaypoint = null;
     private Transform playerLastKnownLocation = null;
     private Node topNode = null;
     private FaceCamera faceCamera;
@@ -26,16 +26,16 @@ public class AmeAI : MonoBehaviour
 
     public bool IsChasing { get; set; }
     public bool NeedsToSelectWaypoint { get; set; } = true;
-    public Transform PreviousWaypoint { get => previousWaypoint; set => previousWaypoint = value; }
-    public Transform CurrentWaypoint { get => currentWaypoint; set => currentWaypoint = value; }
-    public List<Transform> WayPoints { get => wayPoints; set => wayPoints = value; }
+    public Waypoint PreviousWaypoint { get => previousWaypoint; set => previousWaypoint = value; }
+    public Waypoint CurrentWaypoint { get => currentWaypoint; set => currentWaypoint = value; }
+    //public List<Transform> WayPoints { get => wayPoints; set => wayPoints = value; }
     public Transform PlayerLastKnownLocation { get => playerLastKnownLocation; set => playerLastKnownLocation = value; }
     public NavMeshAgent NavMeshAgent => navMeshAgent;
 
     private void Awake()
     {
         playerTransform = FindObjectOfType<FirstPersonAIO>().transform;
-        wayPoints = GameManager.Instance.AmeWayPoints;
+        //wayPoints = GameManager.Instance.AmeWayPoints;
     }
 
     // Start is called before the first frame update
@@ -51,6 +51,8 @@ public class AmeAI : MonoBehaviour
     private void Update()
     {
         topNode.Evaluate();
+        Debug.Log(CurrentWaypoint);
+        Debug.Log(NeedsToSelectWaypoint);
 
         if(IsChasing == true)
         {
@@ -98,5 +100,21 @@ public class AmeAI : MonoBehaviour
         audioSource.PlayOneShot(tempClip);
         yield return new WaitForSeconds(tempClip.length);
         isSoundPlaying = false;
+    }
+
+    public List<Waypoint> GetNearestWaypoints()
+    {
+        List<Waypoint> waypoints = new List<Waypoint>();
+        Collider[] colliders = Physics.OverlapSphere(transform.position, AmeStats.WaypointRange);
+
+        foreach (Collider collider in colliders)
+        {
+            if(collider.TryGetComponent(out Waypoint waypoint))
+            {
+                waypoints.Add(waypoint);
+            }
+        }
+
+        return waypoints;
     }
 }

@@ -6,8 +6,6 @@ namespace BehaviorTreeStuff
     public class NewWaypointNode : Node
     {
         private AmeAI ameAI;
-        private Transform tempWaypoint = null;
-        private List<Transform> wayPoints = new List<Transform>();
 
         public NewWaypointNode(AmeAI ameAI)
         {
@@ -19,21 +17,11 @@ namespace BehaviorTreeStuff
             if (ameAI.NeedsToSelectWaypoint == false)
                 return NodeState.RUNNING;
 
-            foreach (var waypoint in ameAI.WayPoints)
-            {
-                if (Vector3.Distance(waypoint.position, ameAI.transform.position) <= ameAI.AmeStats.WaypointRange)
-                {
-                    wayPoints.Add(waypoint);
-                }
-            }
-
             if(ameAI.NeedsToSelectWaypoint == true)
             {
-                tempWaypoint = ameAI.CurrentWaypoint;
                 IterateThroughWaypoints();
-                wayPoints.Clear();
-                ameAI.NeedsToSelectWaypoint = false;
                 Debug.Log(ameAI.CurrentWaypoint);
+                ameAI.NeedsToSelectWaypoint = false;
                 return NodeState.SUCCESS;
             }
 
@@ -42,50 +30,41 @@ namespace BehaviorTreeStuff
 
         private void IterateThroughWaypoints()
         {
-            List<Transform> possibleWaypoints = new List<Transform>();
-
-            foreach (Transform waypoint in wayPoints)
-            {
-                if (!Physics.Linecast(ameAI.transform.position, waypoint.position))
-                {
-                    possibleWaypoints.Add(waypoint);
-                }
-            }
-
-            //If it is only two, only possible option should be current/previous waypoints
-            if (possibleWaypoints.Count.Equals(2) && ameAI.CurrentWaypoint != null)
-            {
-                ameAI.CurrentWaypoint = ameAI.PreviousWaypoint;
-                ameAI.PreviousWaypoint = tempWaypoint;
-                    
-                return;
-            }
+            List<Waypoint> possibleWaypoints = ameAI.GetNearestWaypoints();
 
             possibleWaypoints.Remove(ameAI.CurrentWaypoint);
             possibleWaypoints.Remove(ameAI.PreviousWaypoint);
 
-            foreach(Transform waypoint in possibleWaypoints)
+            //Checks if there is an obstacle between ame and the waypoint, if not it checks if it is behind ame or not
+            for(int i = 0; i <= possibleWaypoints.Count-1; i++)
             {
-                Vector3 heading = waypoint.position - ameAI.transform.position;
-                float front = Vector3.Dot(heading, ameAI.transform.forward);
-                int random = Random.Range(0, 2);
-
-
-                if(waypoint == possibleWaypoints[possibleWaypoints.Count - 1])
+                if (Physics.Linecast(ameAI.transform.position, possibleWaypoints[i].transform.position, out RaycastHit hit))
                 {
-                    ameAI.CurrentWaypoint = waypoint;
-                    break;
+                    //Debug.Log(possibleWaypoints[i]);
+                    possibleWaypoints.Remove(possibleWaypoints[i]);
                 }
-
-                if (front >= 0)// && waypoint != ameAI.CurrentWaypoint || ameAI.PreviousWaypoint)
+                else
                 {
-                    if(random >= 1)
+                    Vector3 heading = possibleWaypoints[i].transform.position - ameAI.transform.position;
+                    float front = Vector3.Dot(heading, ameAI.transform.forward);
+                    
+                    if(front <= -.5f)
                     {
-                        ameAI.CurrentWaypoint = waypoint;
-                        break;
+                        //Debug.Log(possibleWaypoints[i] + " " + front);
+                        possibleWaypoints.Remove(possibleWaypoints[i]);
+                    }
+                    else
+                    {
+                        //Debug.Log(possibleWaypoints[i] + " " + front);
+                        continue;
                     }
                 }
-            }                   
+            }
+
+            foreach(Waypoint waypoint in possibleWaypoints)
+            {
+                Debug.Log(waypoint);
+            }
         }
     }
 }

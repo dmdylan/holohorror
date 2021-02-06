@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3108433228020209857}
   - component: {fileID: 6938953235297126239}
   - component: {fileID: 2411437811225048634}
-  m_Layer: 10
+  m_Layer: 2
   m_Name: Waypoint
   m_TagString: Waypoint
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -57,4 +57,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 052f0c38de8c9f243829ee47cfafde67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ameStats: {fileID: 0}
+  ameStats: {fileID: 11400000, guid: b36a3abfec77d194a9b63e109eb924a2, type: 2}
