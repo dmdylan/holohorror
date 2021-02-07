@@ -13,7 +13,7 @@ public class AmeAI : MonoBehaviour
     [Header("Ame Stats")]
     public AmeSO AmeStats = null;
 
-    //private List<Transform> wayPoints = null;
+    private List<Waypoint> wayPoints = null;
     private Transform playerTransform;
     private AudioSource audioSource;
     private NavMeshAgent navMeshAgent;
@@ -28,7 +28,7 @@ public class AmeAI : MonoBehaviour
     public bool NeedsToSelectWaypoint { get; set; } = true;
     public Waypoint PreviousWaypoint { get => previousWaypoint; set => previousWaypoint = value; }
     public Waypoint CurrentWaypoint { get => currentWaypoint; set => currentWaypoint = value; }
-    //public List<Transform> WayPoints { get => wayPoints; set => wayPoints = value; }
+    public List<Waypoint> WayPoints { get => wayPoints; set => wayPoints = value; }
     public Transform PlayerLastKnownLocation { get => playerLastKnownLocation; set => playerLastKnownLocation = value; }
     public NavMeshAgent NavMeshAgent => navMeshAgent;
 
@@ -45,6 +45,7 @@ public class AmeAI : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         faceCamera = GetComponent<FaceCamera>();
         navMeshAgent.autoBraking = false;
+        SetFirstWaypoint();
         InitializeBehaviorTree();
     }
 
@@ -87,7 +88,6 @@ public class AmeAI : MonoBehaviour
 
         topNode = new Selector(new List<Node> { moveToPlayer, moveToLastKnownLocation, moveToWaypoint });
     }
-
     private void PlayStepSound()
     {
         audioSource.PlayOneShot(ameFootSteps[Random.Range(0,4)]);
@@ -102,8 +102,9 @@ public class AmeAI : MonoBehaviour
         isSoundPlaying = false;
     }
 
-    public List<Waypoint> GetNearestWaypoints()
+    private void SetFirstWaypoint()
     {
+        NeedsToSelectWaypoint = false;
         List<Waypoint> waypoints = new List<Waypoint>();
         Collider[] colliders = Physics.OverlapSphere(transform.position, AmeStats.WaypointRange);
 
@@ -115,6 +116,14 @@ public class AmeAI : MonoBehaviour
             }
         }
 
-        return waypoints;
+        for(int i = 0; i <= waypoints.Count - 1; i++)
+        {
+            if (Physics.Linecast(transform.position, waypoints[i].transform.position))
+                waypoints.Remove(waypoints[i]);
+        }
+
+        var random = Random.Range(0, waypoints.Count);
+
+        CurrentWaypoint = waypoints[random];
     }
 }

@@ -20,7 +20,6 @@ namespace BehaviorTreeStuff
             if(ameAI.NeedsToSelectWaypoint == true)
             {
                 IterateThroughWaypoints();
-                Debug.Log(ameAI.CurrentWaypoint);
                 ameAI.NeedsToSelectWaypoint = false;
                 return NodeState.SUCCESS;
             }
@@ -30,40 +29,41 @@ namespace BehaviorTreeStuff
 
         private void IterateThroughWaypoints()
         {
-            List<Waypoint> possibleWaypoints = ameAI.GetNearestWaypoints();
+            List<Waypoint> possibleWaypoints = ameAI.WayPoints;
+            List<Waypoint> goodWaypoints = new List<Waypoint>();
 
-            possibleWaypoints.Remove(ameAI.CurrentWaypoint);
-            possibleWaypoints.Remove(ameAI.PreviousWaypoint);
-
-            //Checks if there is an obstacle between ame and the waypoint, if not it checks if it is behind ame or not
-            for(int i = 0; i <= possibleWaypoints.Count-1; i++)
+            if(possibleWaypoints.Count <= 1)
             {
-                if (Physics.Linecast(ameAI.transform.position, possibleWaypoints[i].transform.position, out RaycastHit hit))
-                {
-                    //Debug.Log(possibleWaypoints[i]);
-                    possibleWaypoints.Remove(possibleWaypoints[i]);
-                }
-                else
-                {
-                    Vector3 heading = possibleWaypoints[i].transform.position - ameAI.transform.position;
-                    float front = Vector3.Dot(heading, ameAI.transform.forward);
-                    
-                    if(front <= -.5f)
-                    {
-                        //Debug.Log(possibleWaypoints[i] + " " + front);
-                        possibleWaypoints.Remove(possibleWaypoints[i]);
-                    }
-                    else
-                    {
-                        //Debug.Log(possibleWaypoints[i] + " " + front);
-                        continue;
-                    }
-                }
+                ameAI.CurrentWaypoint = ameAI.PreviousWaypoint;
+                return;
             }
 
             foreach(Waypoint waypoint in possibleWaypoints)
             {
-                Debug.Log(waypoint);
+                Vector3 heading = waypoint.transform.position - ameAI.transform.position;
+                float front = Vector3.Dot(heading, ameAI.transform.forward);
+                
+                if(front >= -.5f)
+                {
+                    goodWaypoints.Add(waypoint);
+                }
+            }
+
+            foreach (Waypoint waypoint in goodWaypoints)
+            {
+                if (goodWaypoints.Count == 1)
+                {
+                    ameAI.CurrentWaypoint = waypoint;
+                    return;
+                }
+
+                int random = Random.Range(0, 2);
+
+                if (random >= 1 || waypoint == goodWaypoints[goodWaypoints.Count-1])
+                {
+                    ameAI.CurrentWaypoint = waypoint;
+                    return;
+                }
             }
         }
     }

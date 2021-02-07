@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private int playerKeys;
     private int numberOfLocks;
     private float ameSpawnTimer;
-    private float ameSpawnTime = 60f;
+    private float ameSpawnTime = 10f;
     private Transform playerTransform;
     private string highScore;
     private string highScoreTime;
@@ -42,18 +42,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject keyPrefab = null;
-    [SerializeField] private GameObject lockPrefab = null;
     [SerializeField] private GameObject amePrefab = null;
 
     //TODO: Only need one point for lock/object spawn
     [Header("Spawn Points")]
     [SerializeField] private List<Transform> ameSpawnPoints = null;
-    [SerializeField] private List<Transform> lockSpawnPointsEasy = null;
-    [SerializeField] private List<Transform> lockSpawnPointsNormal = null;
-    [SerializeField] private List<Transform> lockSpawnPointsHard = null;
-
-    [Header("Waypoints")]
-    //[SerializeField] private List<Transform> ameWaypoints = null;
 
     [Header("Sound Effects")]
     [SerializeField] private AudioClip ameSpawnNoise = null;
@@ -63,7 +56,6 @@ public class GameManager : MonoBehaviour
     public FloatValue flashlightBattery;
 
     public int PlayerKeys => playerKeys;
-    //public List<Transform> AmeWayPoints => ameWaypoints;
 
     #endregion
 
@@ -99,9 +91,8 @@ public class GameManager : MonoBehaviour
 
         if(ameSpawnTimer >= ameSpawnTime && difficulty.GameDifficulty == Difficulty.Gremlin)
         {
-            //TODO: Spawn new ame
             ameSpawnTimer -= ameSpawnTime;
-     //       SpawnNewAme();
+            SpawnNewAme();
         }
     }
     #endregion
@@ -162,34 +153,6 @@ public class GameManager : MonoBehaviour
             Transform spawnLocation = spawnPoints[Random.Range(0, spawnPoints.Count - 1)];
             Instantiate(keyPrefab, spawnLocation.position, spawnLocation.rotation);
             spawnPoints.Remove(spawnLocation);
-        }
-    }
-
-    //TODO: Only need one point for lock/object spawn
-    private void SpawnLocks(int difficultyLevel)
-    {
-        if(difficultyLevel == 3)
-        {
-            foreach(Transform spawn in lockSpawnPointsEasy)
-            {
-                Instantiate(lockPrefab, spawn.position, spawn.rotation);
-            }
-        }
-
-        if (difficultyLevel == 4)
-        {
-            foreach (Transform spawn in lockSpawnPointsNormal)
-            {
-                Instantiate(lockPrefab, spawn.position, spawn.rotation);
-            }
-        }
-
-        if (difficultyLevel == 5)
-        {
-            foreach (Transform spawn in lockSpawnPointsHard)
-            {
-                Instantiate(lockPrefab, spawn.position, spawn.rotation);
-            }
         }
     }
 
