@@ -32,6 +32,11 @@ namespace BehaviorTreeStuff
             List<Waypoint> possibleWaypoints = ameAI.WayPoints;
             List<Waypoint> goodWaypoints = new List<Waypoint>();
 
+            if(possibleWaypoints == null)
+            {
+                return;
+            }
+
             if(possibleWaypoints.Count <= 1)
             {
                 ameAI.CurrentWaypoint = ameAI.PreviousWaypoint;

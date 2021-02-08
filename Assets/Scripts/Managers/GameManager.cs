@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     }
 
     #region Variables
+    private float sfxVolume;
+    private float musicVolume;
     private int playerKeys;
     private int numberOfLocks;
     private float ameSpawnTimer;
@@ -50,12 +52,15 @@ public class GameManager : MonoBehaviour
 
     [Header("Sound Effects")]
     [SerializeField] private AudioClip ameSpawnNoise = null;
+    [SerializeField] private AudioClip[] hiccups = null;
 
     [Header("Scriptable Objects")]
     public DifficultySO difficulty;
     public FloatValue flashlightBattery;
 
     public int PlayerKeys => playerKeys;
+    public float SfxVolume => sfxVolume;
+    public float MusicVolume => musicVolume;
 
     #endregion
 
@@ -127,6 +132,8 @@ public class GameManager : MonoBehaviour
 
     void GameSetup()
     {
+        musicVolume = PlayerPrefs.GetFloat("musicVolume");
+        sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
         audioSource = GetComponent<AudioSource>();
         difficulty.GameDifficulty = Difficulty.Gremlin;
         playerKeys = 0;
@@ -175,7 +182,7 @@ public class GameManager : MonoBehaviour
         int min = Mathf.FloorToInt(Time.timeSinceLevelLoad / 60);
         int sec = Mathf.FloorToInt(Time.timeSinceLevelLoad % 60);
         int mil = Mathf.FloorToInt(Time.timeSinceLevelLoad * 1000) % 1000;
-        string niceTime = min.ToString("00") + ":" + sec.ToString("00") + "." + mil.ToString("0");
+        string niceTime = min.ToString("00") + ":" + sec.ToString("00") + "." + mil.ToString("00");
 
         return niceTime;
     }
@@ -235,6 +242,11 @@ public class GameManager : MonoBehaviour
     public void QuitGameButton()
     {
         Application.Quit();
+    }
+
+    public void PlayHiccup()
+    {
+        audioSource.PlayOneShot(hiccups[Random.Range(0, hiccups.Length - 1)], SfxVolume);       
     }
 
     #endregion
