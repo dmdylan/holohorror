@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33950318588973734}
   - component: {fileID: 23038727267000650}
   - component: {fileID: 4407893262612938425}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Teacher_Desk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4320854037160888}
   - component: {fileID: 381648197}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Teacher_Desk_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 4359254765503176}
   - component: {fileID: 33901901378633316}
   - component: {fileID: 23206132526772482}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Drawer (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 4255806708920760}
   - component: {fileID: 33589370667018840}
   - component: {fileID: 23424486203608908}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Drawer (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

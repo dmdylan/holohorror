@@ -1,0 +1,718 @@
+fileFormatVersion: 2
+guid: b24f2d094e755d54e97b1e3a10ecdb64
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2751377237952108202
+    second: longjumpspritesheet_0
+  - first:
+      213: -1674714405724264422
+    second: longjumpspritesheet_1
+  - first:
+      213: -8295605919621884082
+    second: longjumpspritesheet_2
+  - first:
+      213: 2836232305837670389
+    second: longjumpspritesheet_3
+  - first:
+      213: -3157531799684104027
+    second: longjumpspritesheet_4
+  - first:
+      213: 2970263015192034346
+    second: longjumpspritesheet_5
+  - first:
+      213: -7059419565613122296
+    second: longjumpspritesheet_6
+  - first:
+      213: 1372334393360022988
+    second: longjumpspritesheet_7
+  - first:
+      213: -7341527892176702335
+    second: longjumpspritesheet_8
+  - first:
+      213: 3030603248154066023
+    second: longjumpspritesheet_9
+  - first:
+      213: 2253918493855218603
+    second: longjumpspritesheet_10
+  - first:
+      213: 7452884592254104242
+    second: longjumpspritesheet_11
+  - first:
+      213: -6917265137883888732
+    second: longjumpspritesheet_12
+  - first:
+      213: 3223147253850336869
+    second: longjumpspritesheet_13
+  - first:
+      213: -6802465517125633427
+    second: longjumpspritesheet_14
+  - first:
+      213: -6427102860658685472
+    second: longjumpspritesheet_15
+  - first:
+      213: -3789892909660354236
+    second: longjumpspritesheet_16
+  - first:
+      213: 1152734271761420067
+    second: longjumpspritesheet_17
+  - first:
+      213: 4098895648661751822
+    second: longjumpspritesheet_18
+  - first:
+      213: 6939061676584390861
+    second: longjumpspritesheet_19
+  - first:
+      213: -654684362681348760
+    second: longjumpspritesheet_20
+  - first:
+      213: -4747926410969477282
+    second: longjumpspritesheet_21
+  - first:
+      213: 9020434435898398764
+    second: longjumpspritesheet_22
+  - first:
+      213: -8326278829791543771
+    second: longjumpspritesheet_23
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 2
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: longjumpspritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa61b3f350bde2620800000000000000
+      internalID: 2751377237952108202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 1700
+        y: 5000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a18639afe1832c8e0800000000000000
+      internalID: -1674714405724264422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 3400
+        y: 5000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e475f4c3e5610ec80800000000000000
+      internalID: -8295605919621884082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 5100
+        y: 5000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fff0f151425c5720800000000000000
+      internalID: 2836232305837670389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a044d8be813e24d0800000000000000
+      internalID: -3157531799684104027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 1700
+        y: 4000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2c7006a97e783920800000000000000
+      internalID: 2970263015192034346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 3400
+        y: 4000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80dff27be47e70e90800000000000000
+      internalID: -7059419565613122296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 5100
+        y: 4000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccd764d1cd28b0310800000000000000
+      internalID: 1372334393360022988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1847f267747ad1a90800000000000000
+      internalID: -7341527892176702335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 1700
+        y: 3000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76c3e5de89dde0a20800000000000000
+      internalID: 3030603248154066023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 3400
+        y: 3000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bab7ceaade6874f10800000000000000
+      internalID: 2253918493855218603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 5100
+        y: 3000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b2b941bc07fd6760800000000000000
+      internalID: 7452884592254104242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a3cc3f9100f000a0800000000000000
+      internalID: -6917265137883888732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 1700
+        y: 2000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56e6684b95beabc20800000000000000
+      internalID: 3223147253850336869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 3400
+        y: 2000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6af1e637a9c891a0800000000000000
+      internalID: -6802465517125633427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 5100
+        y: 2000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e9ca8f10085ec6a0800000000000000
+      internalID: -6427102860658685472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4494ce67a78976bc0800000000000000
+      internalID: -3789892909660354236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 1700
+        y: 1000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32f02c476b55fff00800000000000000
+      internalID: 1152734271761420067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 3400
+        y: 1000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e08c0e520e332e830800000000000000
+      internalID: 4098895648661751822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 5100
+        y: 1000
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc0d65384df7c4060800000000000000
+      internalID: 6939061676584390861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86d00627a081ae6f0800000000000000
+      internalID: -654684362681348760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 1700
+        y: 0
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5f0876b51afb1eb0800000000000000
+      internalID: -4747926410969477282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 3400
+        y: 0
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c28dc6fb3550f2d70800000000000000
+      internalID: 9020434435898398764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: longjumpspritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 5100
+        y: 0
+        width: 1700
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52e7b61d48d137c80800000000000000
+      internalID: -8326278829791543771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 7865d685df0a1a64cb24825604aeb7c8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
