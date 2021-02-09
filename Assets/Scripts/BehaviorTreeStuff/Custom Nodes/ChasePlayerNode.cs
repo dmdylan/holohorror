@@ -34,6 +34,8 @@ namespace BehaviorTreeStuff
             {
                 GameEvents.Instance.GameOver();
                 ameAI.IsChasing = false;
+                ameAI.AudioSource.Stop();
+                ameAI.enabled = false;
                 return NodeState.SUCCESS;
             }
             else

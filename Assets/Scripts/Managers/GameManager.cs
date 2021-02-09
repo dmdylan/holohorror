@@ -22,19 +22,20 @@ public class GameManager : MonoBehaviour
     #region Variables
     private float sfxVolume;
     private float musicVolume;
-    private int playerKeys;
-    private int numberOfLocks;
+    private int numberOfMagnifyingGlassesCollected;
+    private int numberOfMagnifyingGlassesNeeded;
     private float ameSpawnTimer;
     [SerializeField] private float ameSpawnTime = 60f;
     private Transform playerTransform;
     private string highScore;
     private string highScoreTime;
     private AudioSource audioSource;
+    private bool gameOverNoisePlayed = false;
     public bool isDebug = true;
 
     [Header("UI Setup")]
-    [SerializeField] private TextMeshProUGUI keyCount = null;
-    [SerializeField] private TextMeshProUGUI lockCount = null;
+    [SerializeField] private TextMeshProUGUI batteryLevel = null;
+    [SerializeField] private TextMeshProUGUI magnifyingGlassesNeededText = null;
     [SerializeField] private GameObject gameOverPanel = null;
     [SerializeField] private GameObject victoryPanel = null;
     [SerializeField] private TextMeshProUGUI victoryTimeText = null;
@@ -43,22 +44,28 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverHighScoreText = null;
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject keyPrefab = null;
     [SerializeField] private GameObject amePrefab = null;
 
-    //TODO: Only need one point for lock/object spawn
     [Header("Spawn Points")]
     [SerializeField] private List<Transform> ameSpawnPoints = null;
+    [SerializeField] private List<GameObject> magnifyingGlasses = null;
 
     [Header("Sound Effects")]
     [SerializeField] private AudioClip ameSpawnNoise = null;
     [SerializeField] private AudioClip[] hiccups = null;
+    [SerializeField] private AudioClip youWinNoise = null;
+    [SerializeField] private AudioClip watchCharged = null;
+    [SerializeField] private AudioClip useTimeMachine = null;
+    [SerializeField] private AudioClip groundPound = null;
+
+    [Header("End Objective")]
+    [SerializeField] private GameObject victoryArea = null;
 
     [Header("Scriptable Objects")]
     public DifficultySO difficulty;
     public FloatValue flashlightBattery;
 
-    public int PlayerKeys => playerKeys;
+    public int PlayerKeys => numberOfMagnifyingGlassesCollected;
     public float SfxVolume => sfxVolume;
     public float MusicVolume => musicVolume;
 
@@ -77,22 +84,23 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.Instance.OnPickUpKey += Instance_OnPickUpKey;
-        GameEvents.Instance.OnOpenALock += Instance_OnOpenALock;
         GameEvents.Instance.OnGameOver += Instance_OnGameOver;
         GameEvents.Instance.OnGameWin += Instance_OnGameWin;
+        GameEvents.Instance.OnAllKeysCollected += Instance_OnAllKeysCollected;
     }
 
     private void OnDisable()
     {
         GameEvents.Instance.OnPickUpKey -= Instance_OnPickUpKey;
-        GameEvents.Instance.OnOpenALock -= Instance_OnOpenALock;
         GameEvents.Instance.OnGameOver -= Instance_OnGameOver;
         GameEvents.Instance.OnGameWin -= Instance_OnGameWin;
+        GameEvents.Instance.OnAllKeysCollected -= Instance_OnAllKeysCollected;
     }
 
     private void Update()
     {
         ameSpawnTimer += Time.deltaTime;
+        batteryLevel.text = flashlightBattery.Value.ToString("0");
 
         if(ameSpawnTimer >= ameSpawnTime && difficulty.GameDifficulty == Difficulty.Gremlin)
         {
@@ -103,6 +111,23 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Misc Methods
+
+    IEnumerator PlayEndNoises()
+    {
+        audioSource.PlayOneShot(useTimeMachine, SfxVolume);
+        yield return new WaitForSeconds(useTimeMachine.length);
+        audioSource.PlayOneShot(youWinNoise, SfxVolume);
+    }
+
+    IEnumerator PlayGameOverNoise()
+    {
+        if (gameOverNoisePlayed != false)
+            yield break;
+
+        audioSource.PlayOneShot(groundPound, SfxVolume);
+        yield return new WaitForSeconds(groundPound.length);
+        gameOverNoisePlayed = true;
+    }
 
     private void SpawnNewAme()
     {
@@ -135,45 +160,48 @@ public class GameManager : MonoBehaviour
         musicVolume = PlayerPrefs.GetFloat("musicVolume");
         sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
         audioSource = GetComponent<AudioSource>();
-        difficulty.GameDifficulty = Difficulty.Gremlin;
-        playerKeys = 0;
+        audioSource.volume = musicVolume;
+        difficulty.GameDifficulty = difficulty.GameDifficulty;
+        numberOfMagnifyingGlassesCollected = 0;
         flashlightBattery.Value = 100;
         Time.timeScale = 1;
         highScore = $"highscore{difficulty.GameDifficulty}";
         highScoreTime = $"highscoreTime{difficulty.GameDifficulty}";
-        numberOfLocks = (int)difficulty.GameDifficulty;
+        numberOfMagnifyingGlassesNeeded = (int)difficulty.GameDifficulty;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        //SpawnKeys((int)difficulty.GameDifficulty, keySpawnPoints);
-        //SpawnLocks((int)difficulty.GameDifficulty);
+        EnableMagnifyingGlasses((int)difficulty.GameDifficulty, magnifyingGlasses);
     }
 
     void UISetup()
     {
-        keyCount.text = playerKeys.ToString();
-        lockCount.text = numberOfLocks.ToString();
+        magnifyingGlassesNeededText.text = numberOfMagnifyingGlassesNeeded.ToString();
     }
 
-    private void SpawnKeys(int keyCount, List<Transform> spawnPoints)
+    private void EnableMagnifyingGlasses(int keyCount, List<GameObject> mg)
     {
-        for(int i = 0; i < keyCount; i++)
+        List<GameObject> tmpList = new List<GameObject>(mg);
+
+        List<GameObject> newList = new List<GameObject>();
+
+        while (newList.Count < keyCount && tmpList.Count > 0)
         {
-            Transform spawnLocation = spawnPoints[Random.Range(0, spawnPoints.Count - 1)];
-            Instantiate(keyPrefab, spawnLocation.position, spawnLocation.rotation);
-            spawnPoints.Remove(spawnLocation);
+            int index = Random.Range(0, tmpList.Count);
+            newList.Add(tmpList[index]);
+            tmpList.RemoveAt(index);
+        }
+
+        foreach(var glass in newList)
+        {
+            glass.SetActive(true);
         }
     }
 
-    void CheckForWin()
+    void CheckMGCount()
     {
-        if (numberOfLocks == 0)
-            GameEvents.Instance.GameWin();
-    }
-
-    void CheckKeyCount()
-    {
-        if(playerKeys == numberOfLocks)
+        if(numberOfMagnifyingGlassesNeeded == 0)
         {
             GameEvents.Instance.AllKeysCollected();
+            magnifyingGlassesNeededText.text = "Escape!";
         }
     }
 
@@ -191,7 +219,7 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey(highScoreTime))
         {
-            if (PlayerPrefs.GetFloat(highScoreTime) < Time.timeSinceLevelLoad)
+            if (PlayerPrefs.GetFloat(highScoreTime) > Time.timeSinceLevelLoad)
             {
                 PlayerPrefs.SetFloat(highScoreTime, Time.timeSinceLevelLoad);
                 PlayerPrefs.SetString(highScore, GetTimeText());
@@ -252,24 +280,23 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Event Methods
-    private void Instance_OnOpenALock()
-    {
-        playerKeys--;
-        keyCount.text = playerKeys.ToString();
-        numberOfLocks--;
-        lockCount.text = numberOfLocks.ToString();
-        CheckForWin();
-    }
-
     private void Instance_OnPickUpKey()
     {
-        playerKeys++;
-        keyCount.text = playerKeys.ToString();
-        CheckKeyCount();
+        numberOfMagnifyingGlassesNeeded--;
+        magnifyingGlassesNeededText.text = numberOfMagnifyingGlassesNeeded.ToString();
+        CheckMGCount();
+    }
+
+    private void Instance_OnAllKeysCollected()
+    {
+        audioSource.PlayOneShot(watchCharged, SfxVolume);
+        victoryArea.SetActive(true);
+        Debug.Log("victory area open");
     }
 
     private void Instance_OnGameOver()
     {
+        StartCoroutine(PlayGameOverNoise());
         Time.timeScale = 0;
         gameOverPanel.SetActive(true);
         gameOverTimeText.text = $"Time elapsed: {GetTimeText()}";
@@ -289,6 +316,7 @@ public class GameManager : MonoBehaviour
         victoryHighScoreText.text = $"High Score: {ShowHighScore()}";
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
+        StartCoroutine(PlayEndNoises());
     }
     #endregion
 }

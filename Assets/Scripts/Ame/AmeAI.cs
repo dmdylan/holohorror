@@ -31,6 +31,7 @@ public class AmeAI : MonoBehaviour
     public List<Waypoint> WayPoints { get => wayPoints; set => wayPoints = value; }
     public Transform PlayerLastKnownLocation { get => playerLastKnownLocation; set => playerLastKnownLocation = value; }
     public NavMeshAgent NavMeshAgent => navMeshAgent;
+    public AudioSource AudioSource => audioSource;
 
     private void Awake()
     {
@@ -88,16 +89,17 @@ public class AmeAI : MonoBehaviour
 
         topNode = new Selector(new List<Node> { moveToPlayer, moveToLastKnownLocation, moveToWaypoint });
     }
+
     private void PlayStepSound()
     {
-        audioSource.PlayOneShot(ameFootSteps[Random.Range(0,4)]);
+        audioSource.PlayOneShot(ameFootSteps[Random.Range(0,4)], GameManager.Instance.SfxVolume);
     }
 
     IEnumerator PlayChaseNoise()
     {
         isSoundPlaying = true;
         AudioClip tempClip = ameChaseNosie[Random.Range(0, ameChaseNosie.Length)];
-        audioSource.PlayOneShot(tempClip);
+        audioSource.PlayOneShot(tempClip, GameManager.Instance.SfxVolume);
         yield return new WaitForSeconds(tempClip.length);
         isSoundPlaying = false;
     }

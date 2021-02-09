@@ -35,4 +35,12 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.gameObject.CompareTag("Watch"))
+            return;
+
+        GameEvents.Instance.GameWin();
+    }
 }

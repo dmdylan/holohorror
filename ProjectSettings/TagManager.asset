@@ -10,6 +10,7 @@ TagManager:
   - Waypoint
   - Wall
   - KeySpawnPoint
+  - Watch
   layers:
   - Default
   - TransparentFX
