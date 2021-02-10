@@ -264,7 +264,7 @@ public class GameManager : MonoBehaviour
 
     public void MainMenuButton()
     {
-        SceneManager.LoadScene("MainMenu");    
+        SceneManager.LoadScene(0);
     }
 
     public void QuitGameButton()
@@ -300,7 +300,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         gameOverPanel.SetActive(true);
         gameOverTimeText.text = $"Time elapsed: {GetTimeText()}";
-        gameOverHighScoreText.text = $"High Score: {ShowHighScore()}";
+        gameOverHighScoreText.text = $"Best time: {ShowHighScore()}";
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }    
@@ -313,7 +313,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         victoryPanel.SetActive(true);
         victoryTimeText.text = $"You escaped in: {GetTimeText()}";
-        victoryHighScoreText.text = $"High Score: {ShowHighScore()}";
+        victoryHighScoreText.text = $"Best time: {ShowHighScore()}";
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         StartCoroutine(PlayEndNoises());

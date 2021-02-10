@@ -271,6 +271,8 @@ public class FirstPersonAIO : MonoBehaviour {
     }
 
     private void Start(){
+        mouseSensitivity = PlayerPrefs.GetFloat("sensitivity");
+
         #region Look Settings - Start
 
         if(autoCrosshair || drawStaminaMeter){

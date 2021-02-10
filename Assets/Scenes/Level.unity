@@ -49811,6 +49811,10 @@ PrefabInstance:
       propertyPath: cameraInputMethod
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6449569701790291465, guid: 6992cdbe51d04ca4caa87b331d4f950a, type: 3}
+      propertyPath: mouseSensitivity
+      value: 4.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8549310480622344383, guid: 6992cdbe51d04ca4caa87b331d4f950a, type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 791
@@ -56844,7 +56848,7 @@ PrefabInstance:
     - target: {fileID: 3844977295469511485, guid: d72346bcb547b734a9c1eebf0ce9d4a9, type: 3}
       propertyPath: ameSpawnNoise
       value: 
-      objectReference: {fileID: 8300000, guid: 83bba3da42641aa41a0fb0b27e25a76c, type: 3}
+      objectReference: {fileID: 8300000, guid: d0b9b6efece28614896b45acb0d94597, type: 3}
     - target: {fileID: 3844977295469511485, guid: d72346bcb547b734a9c1eebf0ce9d4a9, type: 3}
       propertyPath: ameWaypoints.Array.data[0]
       value: 
