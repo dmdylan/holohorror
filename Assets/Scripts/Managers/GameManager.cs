@@ -40,8 +40,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject victoryPanel = null;
     [SerializeField] private TextMeshProUGUI victoryTimeText = null;
     [SerializeField] private TextMeshProUGUI victoryHighScoreText = null;
+    [SerializeField] private TextMeshProUGUI victoryDifficultyText = null;
     [SerializeField] private TextMeshProUGUI gameOverTimeText = null;
     [SerializeField] private TextMeshProUGUI gameOverHighScoreText = null;
+    [SerializeField] private TextMeshProUGUI gameOverDifficultyText = null;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject amePrefab = null;
@@ -299,6 +301,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(PlayGameOverNoise());
         Time.timeScale = 0;
         gameOverPanel.SetActive(true);
+        gameOverDifficultyText.text = $"Difficulty: {difficulty.GameDifficulty}";
         gameOverTimeText.text = $"Time elapsed: {GetTimeText()}";
         gameOverHighScoreText.text = $"Best time: {ShowHighScore()}";
         Cursor.lockState = CursorLockMode.Confined;
@@ -312,6 +315,7 @@ public class GameManager : MonoBehaviour
         HighScoreSetup();
         Time.timeScale = 0;
         victoryPanel.SetActive(true);
+        victoryDifficultyText.text = $"Difficulty: {difficulty.GameDifficulty}";
         victoryTimeText.text = $"You escaped in: {GetTimeText()}";
         victoryHighScoreText.text = $"Best time: {ShowHighScore()}";
         Cursor.lockState = CursorLockMode.Confined;
